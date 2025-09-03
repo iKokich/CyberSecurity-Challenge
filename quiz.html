@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Younger&Cyber - Квиз</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/quiz.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Навигационное меню -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">Younger<span>&</span>Cyber</a>
+    </nav>
+
+    <!-- Выбор команды -->
+    <section class="team-selection">
+        <div class="container">
+            <h2>Выберите свою команду</h2>
+            <p>Присоединяйтесь к Red Team или Blue Team и начните свое путешествие</p>
+            
+            <div class="teams-container">
+                <div class="team-card red-team" data-team="red">
+                    <div class="team-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <h3>Red Team</h3>
+                    <p>Passion, love, anger, danger, warning</p>
+                </div>
+                
+                <div class="team-card blue-team" data-team="blue">
+                    <div class="team-icon">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <h3>Blue Team</h3>
+                    <p>Calm, trust, loyalty, wisdom, confidence</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Секция квиза (изначально скрыта) -->
+    <section class="quiz-section" id="quiz-section">
+        <div class="container">
+            <div class="quiz-header">
+                <h2>Квиз <span id="team-name"></span> команды</h2>
+                <div class="quiz-progress">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <h3 class="question-text" id="question-text"></h3>
+                
+                <div class="options-container" id="options-container">
+                    <!-- Варианты ответов будут добавляться через JavaScript -->
+                </div>
+            </div>
+            
+            <div class="quiz-controls">
+                <button id="prev-btn" class="quiz-btn" disabled>
+                    <i class="fas fa-arrow-left"></i> Назад
+                </button>
+                <span class="question-counter" id="question-counter">Вопрос 1 из 5</span>
+                <button id="next-btn" class="quiz-btn">
+                    Далее <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Результаты квиза (изначально скрыты) -->
+    <section class="results-section" id="results-section">
+        <div class="container">
+            <div class="results-content">
+                <h2>Результаты квиза</h2>
+                <div class="score-container">
+                    <div class="score-circle">
+                        <span id="score-value">0</span>
+                        <span>из</span>
+                        <span id="total-questions">5</span>
+                    </div>
+                    <p id="score-message"></p>
+                </div>
+                <button id="restart-btn" class="cta-button">Пройти еще раз</button>
+                <a href="index.html" class="back-link">Вернуться на главную</a>
+            </div>
+        </div>
+    </section>
+
+    <script src="scripts/quiz.js"></script>
+</body>
+</html>

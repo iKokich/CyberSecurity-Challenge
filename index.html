@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Younger&Cyber</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/comics.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Навигационное меню -->
+    <nav class="navbar">
+        <a href="#" class="logo">Younger<span>&</span>Cyber</a>
+    </nav>
+
+    <!-- HERO-СЕКЦИЯ -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-layout">
+                <!-- Левая колонка -->
+                <div class="hero-left">
+                    <h1 class="hero-main-title">
+                        Участвуй в событиях<br><span>CyberChallenge</span>
+                    </h1>
+                    
+                    <p class="hero-description">
+                        Решай задачи по кибербезопасности в формате квиза . 
+                        Данная платформа предназначена для студентов 1-го курсы и школьников.CyberChallenge создан чтобы заинтерисовать молодое поколение кибербезопасностью.
+                    </p>
+                    
+                    <p class="hero-description">
+                        Данна платформа была сделана как демонстрация.
+                    </p>
+                </div>
+                
+                <!-- Правая колонка -->
+                <div class="hero-right">
+                    <div class="direction-item direction-analytics">LINUX</div>
+                    <div class="direction-item direction-backend">MALWARE</div>
+                    <div class="direction-item direction-ml">ATTACKS</div>
+                    <div class="direction-item direction-mobile">HACKERS</div>
+                    <div class="direction-item direction-frontend">CTF</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Секция комикса -->
+    <section class="comic-section">
+        <div class="comic-container">
+            <div class="comic-content">
+                <h2>НАШЕ КИБЕР-ПРИКЛЮЧЕНИЕ</h2>
+                <p>Откройте для себя увлекательную историю о том, студент Вася ​​стал пионером в цифровом пространстве. Наш путь — это путь инноваций, испытаний и триумфов.</p>
+                <p>В этом интерактивном комиксе мы предлагаем вам исследовать ключевые моменты, сформировавшие нашу идентичность и миссию в киберпространстве.</p>
+                <p>Каждая глава раскрывает суть нашей философии и ценностей, которые ведут нас вперёд в этом постоянно меняющемся цифровом мире.</p>
+            </div>
+            
+            <div class="comic-slider">
+                <div class="slider-header">
+                    <h2>КИБЕР ХРОНИКИ</h2>
+                    <p>Пролистайте нашу интерактивную историю</p>
+                </div>
+                
+                <div class="comic-strip">
+                    <div class="comic-panel active">
+                        <div class="comic-character">
+                            <img src="assets/img/cat_saying.png" alt="Cyber Character">
+                        </div>
+                        <div class="comic-text">
+                            <h3>The Beginning</h3>
+                            <p>"It all started in a small garage with just two computers and a dream. We knew the cyber world was evolving, and we wanted to be part of that change."</p>
+                        </div>
+                    </div>
+                    
+                    <div class="comic-panel">
+                        <div class="comic-character">
+                            <img src="assets/img/boy.png" alt="Cyber Character">
+                        </div>
+                        <div class="comic-text">
+                            <h3>The Challenge</h3>
+                            <p>"The first year was tough. We faced obstacles nobody warned us about. But every challenge taught us something valuable about the cyber landscape."</p>
+                        </div>
+                    </div>
+                    
+                    <div class="comic-panel">
+                        <div class="comic-character">
+                            <img src="assets/img/chatbot.svg" alt="Cyber Character">
+                        </div>
+                        <div class="comic-text">
+                            <h3>The Breakthrough</h3>
+                            <p>"Then came the innovation that changed everything. Our unique approach to cybersecurity started gaining attention from major players in the industry."</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slider-controls">
+                    <button class="slider-btn" id="prev-btn" disabled>
+                        <i class="fas fa-arrow-left"></i> Previous
+                    </button>
+                    <button class="slider-btn" id="next-btn">
+                        Next <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+                
+                <div class="slider-dots">
+                    <div class="dot active" data-index="0"></div>
+                    <div class="dot" data-index="1"></div>
+                    <div class="dot" data-index="2"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Секция с кнопкой перехода к квизу -->
+    <section class="quiz-cta-section">
+        <div class="quiz-cta-container">
+            <h2>Готовы начать путешествие?</h2>
+            <p>Присоединяйтесь к одной из команд и проверьте свои знания в области кибербезопасности</p>
+            <a href="quiz.html" class="cta-button">Начать путешествие</a>
+        </div>
+    </section>
+
+    <script src="scripts/app.js"></script>
+</body>
+</html>

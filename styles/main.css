@@ -1,0 +1,215 @@
+/* ======================================== */
+/*            ОБЩИЕ СТИЛИ САЙТА             */
+/* ======================================== */
+
+/* Сброс стилей и базовые настройки */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #1a1a2e; /* Основной фон сайта */
+    color: #d1d8e0; /* Основной цвет текста */
+    line-height: 1.6;
+}
+
+a {
+    color: #6c5ce7;
+    text-decoration: none;
+}
+
+/* Стили для навигационного меню */
+.navbar {
+    background: rgba(10, 10, 22, 0.8);
+    backdrop-filter: blur(10px);
+    padding: 15px 50px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo {
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 800;
+}
+
+.logo span {
+    color: #ff6b6b;
+}
+
+
+/* ======================================== */
+/*          СТИЛИ ДЛЯ HERO-СЕКЦИИ           */
+/* ======================================== */
+
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 50px 50px;
+    position: relative;
+    /* Убедитесь, что у вас есть фоновое изображение по этому пути */
+    background: url('../assets/your-background-image.jpg') center/cover no-repeat;
+    background-color: #1a1a2e; /* Цвет фона на случай, если картинка не загрузится */
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 10, 22, 0.85);
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.hero-layout {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5%;
+}
+
+.hero-left {
+    flex-basis: 50%;
+    text-align: left;
+}
+
+.hero-right {
+    flex-basis: 45%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.hero-main-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.hero-main-title span {
+    font-weight: 400;
+}
+
+.hero-description {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #d1d8e0;
+    margin-bottom: 15px;
+    max-width: 550px;
+    margin-left: 0;
+    margin-right: 0;
+    text-align: left;
+}
+
+.direction-item {
+    color: #000;
+    font-weight: 800;
+    font-size: 1.7rem;
+    padding: 8px 18px;
+    text-align: left;
+    width: fit-content;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+/* АНИМАЦИЯ ПРИ НАВЕДЕНИИ */
+.direction-item:hover {
+    animation: shake-and-tilt 0.6s infinite;
+}
+
+@keyframes shake-and-tilt {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-2deg); }
+    20% { transform: translate(-3px, 0px) rotate(2deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(2deg); }
+    50% { transform: translate(-1px, 2px) rotate(-2deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-2deg); }
+    80% { transform: translate(-1px, -1px) rotate(2deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-2deg); }
+}
+
+/* Цвета и позиционирование блоков */
+.direction-analytics { background-color: #C5B8FA; }
+.direction-backend { background-color: #A6E6B2; }
+.direction-ml { background-color: #A9D5EF; }
+.direction-mobile { background-color: #F2B9B9; }
+.direction-frontend { background-color: #FADCB3; }
+
+.direction-backend { margin-left: 35%; }
+.direction-ml { max-width: 250px; }
+.direction-mobile { max-width: 320px; }
+.direction-frontend { margin-left: 45%; }
+
+
+/* ======================================== */
+/*       СТИЛИ ДЛЯ СЕКЦИИ CTA КВИЗА         */
+/* ======================================== */
+
+.quiz-cta-section {
+    padding: 80px 50px;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    text-align: center;
+}
+.quiz-cta-container { max-width: 800px; margin: 0 auto; }
+.quiz-cta-section h2 { font-size: 2.5rem; margin-bottom: 20px; color: #6c5ce7; }
+.quiz-cta-section p { font-size: 1.3rem; margin-bottom: 40px; color: #a5b1c2; }
+.cta-button { 
+    display: inline-block; 
+    padding: 18px 45px; 
+    background: linear-gradient(45deg, #ff6b6b, #ff8e53); 
+    color: white; 
+    text-decoration: none; 
+    border-radius: 30px; 
+    font-weight: bold; 
+    font-size: 1.3rem; 
+    transition: all 0.3s ease; 
+    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3); 
+    border: none; 
+    cursor: pointer; 
+}
+.cta-button:hover { 
+    transform: translateY(-5px); 
+    box-shadow: 0 10px 25px rgba(255, 107, 107, 0.5); 
+}
+
+
+/* ======================================== */
+/*                АДАПТИВНОСТЬ              */
+/* ======================================== */
+
+@media (max-width: 992px) {
+    .hero { padding: 100px 30px 40px; }
+    .hero-layout { flex-direction: column; }
+    .hero-right { margin-top: 40px; align-items: center; }
+    .direction-item { font-size: 1.5rem; }
+    .direction-backend, .direction-frontend { margin-left: 0; }
+}
+
+@media (max-width: 768px) {
+    .hero-main-title { font-size: 1.8rem; }
+    .direction-item { font-size: 1.2rem; padding: 8px 15px;}
+}
