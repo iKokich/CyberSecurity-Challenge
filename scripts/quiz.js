@@ -18,11 +18,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const totalQuestionsElement = document.getElementById('total-questions');
     const scoreMessageElement = document.getElementById('score-message');
     const restartBtn = document.getElementById('restart-btn');
-    const hintBtn = document.getElementById('hint-btn');
-    const modalOverlay = document.getElementById('modal-overlay');
-    const hintModal = document.getElementById('hint-modal');
-    const hintTextElementModal = document.getElementById('hint-text');
-    const closeModalBtn = document.querySelector('.close-btn');
+    const hintBtn = document.getElementById('hint-btn'); // Кнопка подсказки
+    const modalOverlay = document.getElementById('modal-overlay'); // Фон модального окна
+    const hintModal = document.getElementById('hint-modal'); // Само модальное окно
+    const hintTextElementModal = document.getElementById('hint-text'); // Текст подсказки в модальном окне
+    const closeModalBtn = document.querySelector('.close-btn'); // Кнопка закрытия модального окна
     
     // Переменные состояния
     let selectedTeam = '';
@@ -86,6 +86,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 { term: "Ботнет", definition: "Сеть зараженных компьютеров" }
             ],
             hint: "DDoS связан с 'отказом в обслуживании'. Фишинг - с получением 'конфиденциальной информации'."
+        },
+        // НОВЫЙ ШАГ: DragToInput - Перебор паролей
+        {
+            type: 'game',
+            gameType: 'dragToInput',
+            title: "Инструмент для перебора паролей",
+            question: "Чем пользуются хакеры для перебора пароля, для его получения?",
+            imageUrl: "assets/img/forgot.svg", 
+            options: ["hydra", "nmap", "metasploit", "dirb"],
+            correctOptionIndex: 0, // 'hydra'
+            hint: "Название программы похоже на имя мифического существа."
         },
         {
             type: 'game',
@@ -332,6 +343,8 @@ document.addEventListener('DOMContentLoaded', function() {
             loadMatchingGame(gameData);
         } else if (gameData.gameType === 'bashTerminal') {
             loadBashTerminalGame(gameData);
+        } else if (gameData.gameType === 'dragToInput') { // <-- Новый тип игры
+            loadDragToInputGame(gameData);
         }
         
         // Кнопка "Далее" заблокирована, пока игра не завершена успешно/попытка не сделана
@@ -559,8 +572,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (userAnswers[currentStep] !== undefined) return; 
         
         const question = currentSteps[currentStep];
-        // ИЗМЕНЕНИЕ: Исправлена выборка элементов для вопросов
-        const options = optionsContainer.querySelectorAll('.option'); 
+        const options = optionsContainer.querySelectorAll('.option'); // <-- ИСПРАВЛЕНИЕ: Правильная выборка
         
         userAnswers[currentStep] = optionIndex; 
         
@@ -575,7 +587,7 @@ document.addEventListener('DOMContentLoaded', function() {
         nextBtn.disabled = false; 
     }
 
-    // --- НОВАЯ ФУНКЦИЯ: Загрузка игры Bash-терминал ---
+    // --- Загрузка игры Bash-терминал ---
     function loadBashTerminalGame(gameData) {
         const bashGameHTML = `
             <div class="bash-terminal-game">
@@ -693,7 +705,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 gameFeedbackElement.style.backgroundColor = 'rgba(255, 71, 87, 0.2)';
                 gameFeedbackElement.style.color = '#ff4757';
                 
-                // Даже при ошибке позволяем перейти дальше, но не начисляем баллы
                 if (userAnswers[currentStep] === undefined) {
                     userAnswers[currentStep] = false;
                 }
@@ -708,6 +719,80 @@ document.addEventListener('DOMContentLoaded', function() {
         fileContentEditorElement.textContent = gameData.fileContent.join('\n'); // Помещаем сырой текст для редактирования
         fileContentEditorElement.setAttribute('contenteditable', 'true'); // Делаем его редактируемым
         fileContentEditorElement.focus(); // Устанавливаем фокус на редактор
+    }
+
+    // --- НОВАЯ ФУНКЦИЯ: Загрузка игры DragToInput ---
+    function loadDragToInputGame(gameData) {
+        const dragToInputHTML = `
+            <div class="drag-to-input-game">
+                <img src="${gameData.imageUrl}" alt="Изображение для вопроса" class="drag-to-input-image">
+                <p class="drag-question-text">${gameData.question}</p>
+                <div class="drag-options-list">
+                    ${gameData.options.map((option, index) => `
+                        <div class="drag-option-item" draggable="true" data-value="${option}" data-index="${index}">
+                            ${option}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="drop-target-input" id="drop-target-input">
+                    Перетащите ответ сюда
+                </div>
+            </div>
+        `;
+        gameContentElement.innerHTML = dragToInputHTML;
+
+        const dragOptionItems = gameContentElement.querySelectorAll('.drag-option-item');
+        const dropTargetInput = gameContentElement.querySelector('#drop-target-input');
+        let draggedItemValue = '';
+
+        dragOptionItems.forEach(item => {
+            item.addEventListener('dragstart', (e) => {
+                draggedItemValue = e.target.dataset.value;
+                e.target.classList.add('dragging');
+            });
+            item.addEventListener('dragend', (e) => {
+                e.target.classList.remove('dragging');
+            });
+        });
+
+        dropTargetInput.addEventListener('dragover', (e) => {
+            e.preventDefault(); // Разрешаем сброс
+            dropTargetInput.classList.add('drag-over');
+        });
+
+        dropTargetInput.addEventListener('dragleave', () => {
+            dropTargetInput.classList.remove('drag-over');
+        });
+
+        dropTargetInput.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropTargetInput.classList.remove('drag-over');
+            
+            dropTargetInput.textContent = draggedItemValue; // Показываем перетащенный текст
+
+            if (draggedItemValue.toLowerCase() === gameData.options[gameData.correctOptionIndex].toLowerCase()) {
+                dropTargetInput.classList.add('correct');
+                gameFeedbackElement.textContent = 'Верно! Это правильный инструмент.';
+                gameFeedbackElement.style.backgroundColor = 'rgba(46, 213, 115, 0.2)';
+                gameFeedbackElement.style.color = '#2ed573';
+                if (userAnswers[currentStep] === undefined) {
+                    userAnswers[currentStep] = true;
+                    score++;
+                }
+            } else {
+                dropTargetInput.classList.add('incorrect');
+                gameFeedbackElement.textContent = 'Неверно. Попробуйте еще раз.';
+                gameFeedbackElement.style.backgroundColor = 'rgba(255, 71, 87, 0.2)';
+                gameFeedbackElement.style.color = '#ff4757';
+                if (userAnswers[currentStep] === undefined) {
+                    userAnswers[currentStep] = false;
+                }
+            }
+            nextBtn.disabled = false; // Активируем кнопку "Далее" после попытки
+            // Блокируем дальнейшие перетаскивания
+            dragOptionItems.forEach(item => item.draggable = false);
+            dropTargetInput.style.pointerEvents = 'none'; // Отключаем drop-зону
+        });
     }
 
     // Обработчики кнопок навигации

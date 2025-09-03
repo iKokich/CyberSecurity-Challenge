@@ -648,6 +648,94 @@
     font-size: 0.95rem;
 }
 
+/* Стили для новой игры DragToInput */
+.drag-to-input-game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.drag-to-input-game .drag-to-input-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.drag-to-input-game .drag-question-text {
+    font-size: 1.5rem;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.drag-options-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.drag-option-item {
+    padding: 12px 25px;
+    background: rgba(108, 92, 231, 0.2);
+    border: 2px solid #6c5ce7;
+    border-radius: 25px;
+    cursor: grab;
+    transition: all 0.2s ease;
+    color: #fff;
+    font-weight: 600;
+}
+
+.drag-option-item:hover {
+    background: rgba(108, 92, 231, 0.4);
+    transform: translateY(-2px);
+}
+
+.drag-option-item.dragging {
+    opacity: 0.6;
+    transform: scale(0.95);
+}
+
+.drop-target-input {
+    width: 100%;
+    max-width: 400px;
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px dashed #a5b1c2;
+    border-radius: 10px;
+    text-align: center;
+    color: #f8f8f2;
+    font-size: 1.2rem;
+    font-weight: bold;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.drop-target-input.drag-over {
+    border-color: #6c5ce7;
+    background: rgba(108, 92, 231, 0.1);
+}
+
+.drop-target-input.correct {
+    border-color: #2ed573;
+    background: rgba(46, 213, 115, 0.2);
+    color: #2ed573;
+}
+
+.drop-target-input.incorrect {
+    border-color: #ff4757;
+    background: rgba(255, 71, 87, 0.2);
+    color: #ff4757;
+}
+
+
 /* Адаптивность */
 @media (max-width: 768px) {
     .navbar {
@@ -695,7 +783,8 @@
     }
     
     .question-text,
-    .game-title {
+    .game-title,
+    .drag-to-input-game .drag-question-text {
         font-size: 1.3rem;
     }
     
@@ -732,5 +821,13 @@
     }
     .prompt {
         font-size: 0.85rem;
+    }
+    .drop-target-input {
+        font-size: 1rem;
+        min-height: 50px;
+    }
+    .drag-option-item {
+        padding: 10px 20px;
+        font-size: 1rem;
     }
 }
