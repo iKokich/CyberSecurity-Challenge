@@ -18,6 +18,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const totalQuestionsElement = document.getElementById('total-questions');
     const scoreMessageElement = document.getElementById('score-message');
     const restartBtn = document.getElementById('restart-btn');
+    const hintBtn = document.getElementById('hint-btn');
+    const modalOverlay = document.getElementById('modal-overlay');
+    const hintModal = document.getElementById('hint-modal');
+    const hintTextElementModal = document.getElementById('hint-text');
+    const closeModalBtn = document.querySelector('.close-btn');
     
     // Переменные состояния
     let selectedTeam = '';
@@ -28,7 +33,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Шаги для Red Team (вопросы и игры чередуются)
     const redTeamSteps = [
-        // Вопрос 1
         {
             type: 'question',
             question: "Что символизирует красный цвет в кибербезопасности?",
@@ -38,9 +42,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 "Нейтральный статус",
                 "Низкий приоритет"
             ],
-            correct: 0
+            correct: 0,
+            hint: "Красный цвет часто используется для обозначения опасности или необходимости внимания, как в светофоре."
         },
-        // Игра 1
         {
             type: 'game',
             gameType: 'dragAndDrop',
@@ -55,9 +59,9 @@ document.addEventListener('DOMContentLoaded', function() {
             categories: [
                 { id: "red", title: "Red Team" },
                 { id: "blue", title: "Blue Team" }
-            ]
+            ],
+            hint: "Red Team атакует (пентесты, социальная инженерия), Blue Team защищает (мониторинг, анализ)."
         },
-        // Вопрос 2
         {
             type: 'question',
             question: "Какая из этих угроз чаще всего ассоциируется с Red Team?",
@@ -67,9 +71,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 "Атаки на целостность данных",
                 "Социальная инженерия"
             ],
-            correct: 0
+            correct: 0,
+            hint: "Фишинг - это один из методов, который Red Team использует для проверки бдительности сотрудников."
         },
-        // Игра 2
         {
             type: 'game',
             gameType: 'matching',
@@ -80,9 +84,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 { term: "DDoS", definition: "Атака на отказ в обслуживании" },
                 { term: "Эксплойт", definition: "Код, использующий уязвимость" },
                 { term: "Ботнет", definition: "Сеть зараженных компьютеров" }
-            ]
+            ],
+            hint: "DDoS связан с 'отказом в обслуживании'. Фишинг - с получением 'конфиденциальной информации'."
         },
-        // Вопрос 3
         {
             type: 'question',
             question: "Какой основной фокус Red Team в кибербезопасности?",
@@ -92,13 +96,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 "Мониторинг сетевой активности",
                 "Анализ malware"
             ],
-            correct: 0
+            correct: 0,
+            hint: "Red Team действует как 'этичный хакер', имитируя атаки, чтобы найти слабые места."
         }
     ];
     
     // Шаги для Blue Team (вопросы и игры чередуются)
     const blueTeamSteps = [
-        // Вопрос 1
         {
             type: 'question',
             question: "Что символизирует синий цвет в кибербезопасности?",
@@ -108,9 +112,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 "Низкий уровень угрозы",
                 "Необходимость немедленного действия"
             ],
-            correct: 0
+            correct: 0,
+            hint: "Синий цвет часто ассоциируется со спокойствием и надежностью, что соответствует роли защитников."
         },
-        // Игра 1
         {
             type: 'game',
             gameType: 'dragAndDrop',
@@ -127,9 +131,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 { id: "scanning", title: "Сканирование" },
                 { id: "exploitation", title: "Эксплуатация" },
                 { id: "testing", title: "Тестирование" }
-            ]
+            ],
+            hint: "Wireshark 'анализирует' трафик, а Nmap 'сканирует' сеть."
         },
-        // Вопрос 2
         {
             type: 'question',
             question: "Какая из этих задач является основной для Blue Team?",
@@ -139,9 +143,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 "Проведение атак на системы",
                 "Создание инструментов для взлома"
             ],
-            correct: 0
+            correct: 0,
+            hint: "Blue Team находится в обороне, поэтому их главная задача - защита и реагирование."
         },
-        // Игра 2
         {
             type: 'game',
             gameType: 'matching',
@@ -152,9 +156,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 { term: "SSH", definition: "Безопасное удаленное управление" },
                 { term: "DNS", definition: "Преобразование доменных имен в IP-адреса" },
                 { term: "VPN", definition: "Защищенное соединение между сетями" }
-            ]
+            ],
+            hint: "HTTPS - это безопасная версия HTTP. VPN создает 'защищенное соединение'."
         },
-        // Вопрос 3
         {
             type: 'question',
             question: "Какой основной фокус Blue Team в кибербезопасности?",
@@ -164,7 +168,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 "Разведка угроз",
                 "Разработка уязвимостей"
             ],
-            correct: 0
+            correct: 0,
+            hint: "В отличие от атакующей Red Team, Blue Team сосредоточена на оборонительных мерах."
         }
     ];
     
@@ -184,11 +189,15 @@ document.addEventListener('DOMContentLoaded', function() {
     function loadStep() {
         const step = currentSteps[currentStep];
         
-        // Скрываем все контейнеры
+        if (step.hint) {
+            hintBtn.style.display = 'flex';
+        } else {
+            hintBtn.style.display = 'none';
+        }
+        
         document.querySelector('.question-container').style.display = 'none';
         gameContainer.style.display = 'none';
         
-        // Показываем соответствующий контейнер
         if (step.type === 'question') {
             document.querySelector('.question-container').style.display = 'block';
             loadQuestion(step);
@@ -197,14 +206,11 @@ document.addEventListener('DOMContentLoaded', function() {
             loadGame(step);
         }
         
-        // Обновляем прогресс
         progressBar.style.width = `${((currentStep + 1) / currentSteps.length) * 100}%`;
         questionCounter.textContent = `Шаг ${currentStep + 1} из ${currentSteps.length}`;
         
-        // Обновляем состояние кнопок
         prevBtn.disabled = currentStep === 0;
         
-        // Для последнего шага меняем текст кнопки
         if (currentStep === currentSteps.length - 1) {
             nextBtn.textContent = 'Завершить квиз';
         } else {
@@ -223,7 +229,6 @@ document.addEventListener('DOMContentLoaded', function() {
             optionElement.textContent = option;
             optionElement.setAttribute('data-index', index);
             
-            // Проверяем, был ли уже дан ответ на этот вопрос
             if (userAnswers[currentStep] !== undefined) {
                 if (index === questionData.correct) {
                     optionElement.classList.add('correct');
@@ -236,7 +241,6 @@ document.addEventListener('DOMContentLoaded', function() {
             optionsContainer.appendChild(optionElement);
         });
         
-        // Активируем кнопку "Далее" если уже ответили
         nextBtn.disabled = userAnswers[currentStep] === undefined;
     }
     
@@ -253,7 +257,6 @@ document.addEventListener('DOMContentLoaded', function() {
             loadMatchingGame(gameData);
         }
         
-        // Для игр активируем кнопку "Далее" только после завершения
         nextBtn.disabled = userAnswers[currentStep] === undefined;
     }
     
@@ -281,7 +284,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         gameContentElement.innerHTML = gameHTML;
         
-        // Инициализация перетаскивания
         initDragAndDrop(gameData);
     }
     
@@ -291,7 +293,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const dropZones = document.querySelectorAll('.drop-zone');
         const draggedItems = {};
         
-        // Начало перетаскивания
         dragItems.forEach(item => {
             item.addEventListener('dragstart', function(e) {
                 e.dataTransfer.setData('text/plain', this.dataset.id);
@@ -303,7 +304,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
         
-        // Обработка зон сброса
         dropZones.forEach(zone => {
             zone.addEventListener('dragover', function(e) {
                 e.preventDefault();
@@ -325,7 +325,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     this.appendChild(draggedItem);
                     draggedItems[itemId] = this.dataset.category;
                     
-                    // Проверяем, все ли элементы размещены
                     if (Object.keys(draggedItems).length === gameData.items.length) {
                         checkDragAndDropAnswer(gameData, draggedItems);
                     }
@@ -362,17 +361,15 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Загрузка игры на сопоставление
     function loadMatchingGame(gameData) {
-        // Перемешиваем пары
         const shuffledPairs = [...gameData.pairs].sort(() => Math.random() - 0.5);
         const terms = shuffledPairs.map(pair => pair.term);
-        const definitions = shuffledPairs.map(pair => pair.definition);
+        const definitions = [...shuffledPairs.map(pair => pair.definition)].sort(() => Math.random() - 0.5);
         
         const gameHTML = `
             <div class="match-game">
                 <p>${gameData.description}</p>
                 <div class="match-pairs">
                     <div class="terms">
-                        <h4>Термины</h4>
                         ${terms.map(term => `
                             <div class="match-item" data-type="term" data-value="${term}">
                                 ${term}
@@ -380,7 +377,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         `).join('')}
                     </div>
                     <div class="definitions">
-                        <h4>Определения</h4>
                         ${definitions.map(definition => `
                             <div class="match-item" data-type="definition" data-value="${definition}">
                                 ${definition}
@@ -393,7 +389,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         gameContentElement.innerHTML = gameHTML;
         
-        // Инициализация сопоставления
         initMatchingGame(gameData);
     }
     
@@ -407,7 +402,6 @@ document.addEventListener('DOMContentLoaded', function() {
         matchItems.forEach(item => {
             item.addEventListener('click', function() {
                 if (this.dataset.type === 'term') {
-                    // Сброс предыдущего выбора термина
                     document.querySelectorAll('.match-item[data-type="term"]').forEach(i => {
                         if (i !== this) i.classList.remove('selected');
                     });
@@ -415,7 +409,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     this.classList.toggle('selected');
                     selectedTerm = this.classList.contains('selected') ? this.dataset.value : null;
                 } else {
-                    // Сброс предыдущего выбора определения
                     document.querySelectorAll('.match-item[data-type="definition"]').forEach(i => {
                         if (i !== this) i.classList.remove('selected');
                     });
@@ -424,12 +417,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     selectedDefinition = this.classList.contains('selected') ? this.dataset.value : null;
                 }
                 
-                // Если выбраны и термин и определение, проверяем совпадение
                 if (selectedTerm && selectedDefinition) {
                     const isCorrect = checkMatchingPair(gameData, selectedTerm, selectedDefinition);
                     
                     if (isCorrect) {
-                        // Найдем соответствующие элементы и пометим как правильные
                         document.querySelectorAll('.match-item').forEach(i => {
                             if (i.dataset.value === selectedTerm || i.dataset.value === selectedDefinition) {
                                 i.classList.add('correct');
@@ -438,10 +429,8 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                         });
                         
-                        // Сохраняем совпадение
                         matches[selectedTerm] = selectedDefinition;
                         
-                        // Проверяем, все ли пары найдены
                         if (Object.keys(matches).length === gameData.pairs.length) {
                             gameFeedbackElement.textContent = 'Правильно! Все пары сопоставлены.';
                             gameFeedbackElement.style.backgroundColor = 'rgba(46, 213, 115, 0.2)';
@@ -451,7 +440,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             nextBtn.disabled = false;
                         }
                     } else {
-                        // Неправильное сопоставление
                         document.querySelectorAll('.match-item.selected').forEach(i => {
                             i.classList.add('incorrect');
                             setTimeout(() => {
@@ -464,7 +452,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         gameFeedbackElement.style.color = '#ff4757';
                     }
                     
-                    // Сброс выбора
                     selectedTerm = null;
                     selectedDefinition = null;
                 }
@@ -480,16 +467,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Выбор варианта ответа
     function selectOption(optionIndex) {
-        // Если уже ответили на этот вопрос, не позволяем изменить ответ
         if (userAnswers[currentStep] !== undefined) return;
         
         const question = currentSteps[currentStep];
         const options = document.querySelectorAll('.option');
         
-        // Сохраняем ответ пользователя
         userAnswers[currentStep] = optionIndex;
         
-        // Проверяем правильность ответа
         if (optionIndex === question.correct) {
             options[optionIndex].classList.add('correct');
             score++;
@@ -498,7 +482,6 @@ document.addEventListener('DOMContentLoaded', function() {
             options[question.correct].classList.add('correct');
         }
         
-        // Активируем кнопку "Далее"
         nextBtn.disabled = false;
     }
     
@@ -515,7 +498,6 @@ document.addEventListener('DOMContentLoaded', function() {
             currentStep++;
             loadStep();
         } else {
-            // Завершаем квиз и показываем результаты
             showResults();
         }
     });
@@ -524,11 +506,11 @@ document.addEventListener('DOMContentLoaded', function() {
     function showResults() {
         quizSection.style.display = 'none';
         resultsSection.style.display = 'flex';
+        hintBtn.style.display = 'none'; // Скрываем кнопку подсказки на экране результатов
         
         scoreValueElement.textContent = score;
         totalQuestionsElement.textContent = currentSteps.length;
         
-        // Определяем сообщение в зависимости от результата
         if (score === currentSteps.length) {
             scoreMessageElement.textContent = 'Идеальный результат! Вы настоящий эксперт!';
         } else if (score >= currentSteps.length * 0.7) {
@@ -549,4 +531,23 @@ document.addEventListener('DOMContentLoaded', function() {
         resultsSection.style.display = 'none';
         document.querySelector('.team-selection').style.display = 'flex';
     });
+
+    // Логика для модального окна подсказки
+    function openHintModal() {
+        const hintText = currentSteps[currentStep].hint;
+        if (hintText) {
+            hintTextElementModal.textContent = hintText;
+            modalOverlay.style.display = 'block';
+            hintModal.style.display = 'block';
+        }
+    }
+
+    function closeHintModal() {
+        modalOverlay.style.display = 'none';
+        hintModal.style.display = 'none';
+    }
+
+    hintBtn.addEventListener('click', openHintModal);
+    closeModalBtn.addEventListener('click', closeHintModal);
+    modalOverlay.addEventListener('click', closeHintModal);
 });

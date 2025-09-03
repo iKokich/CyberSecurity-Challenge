@@ -10,9 +10,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Навигационное меню -->
+    <!-- Навигационное меню с кнопкой подсказки -->
     <nav class="navbar">
         <a href="index.html" class="logo">Younger<span>&</span>Cyber</a>
+        <button id="hint-btn" class="quiz-btn hint-btn">
+            <i class="fas fa-lightbulb"></i> Подсказка
+        </button>
     </nav>
 
     <!-- Выбор команды -->
@@ -98,6 +101,18 @@
             </div>
         </div>
     </section>
+
+    <!-- Модальное окно для подсказки -->
+    <div id="modal-overlay" class="modal-overlay"></div>
+    <div id="hint-modal" class="modal">
+        <div class="modal-header">
+            <h3>Подсказка</h3>
+            <span class="close-btn">&times;</span>
+        </div>
+        <div class="modal-content">
+            <p id="hint-text"></p>
+        </div>
+    </div>
 
     <script src="scripts/quiz.js"></script>
 </body>

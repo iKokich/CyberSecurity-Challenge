@@ -1,3 +1,16 @@
+/* Стили для навигационной панели */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
 /* Стили для выбора команды */
 .team-selection {
     padding: 120px 50px 80px;
@@ -99,6 +112,20 @@
 .quiz-header {
     text-align: center;
     margin-bottom: 50px;
+}
+
+.hint-btn {
+    background: transparent;
+    border: 2px solid #6c5ce7;
+    color: #6c5ce7;
+    padding: 10px 20px;
+    font-size: 1rem;
+    display: none; /* Изначально скрыта */
+}
+
+.hint-btn:hover:not(:disabled) {
+    background: rgba(108, 92, 231, 0.2);
+    transform: translateY(-3px);
 }
 
 .quiz-header h2 {
@@ -254,6 +281,13 @@
 .match-pairs {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    gap: 25px; 
+}
+
+.match-pairs .terms,
+.match-pairs .definitions {
+    display: flex;
+    flex-direction: column;
     gap: 15px;
 }
 
@@ -383,8 +417,90 @@
     text-decoration: underline;
 }
 
+/* Стили для модального окна подсказки */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1001;
+    display: none;
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #1a1a3d;
+    color: #fff;
+    padding: 30px;
+    border-radius: 20px;
+    z-index: 1002;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -45%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 15px;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #6c5ce7;
+}
+
+.close-btn {
+    font-size: 2rem;
+    cursor: pointer;
+    color: #a5b1c2;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+    color: #fff;
+}
+
+.modal-content p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #a5b1c2;
+}
+
+
 /* Адаптивность */
 @media (max-width: 768px) {
+    .navbar {
+        padding: 15px 20px;
+    }
+
+    .hint-btn {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+
     .team-selection,
     .quiz-section,
     .results-section {
