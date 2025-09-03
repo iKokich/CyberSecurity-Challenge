@@ -10,12 +10,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Навигационное меню с кнопкой подсказки -->
+    <!-- Навигационное меню -->
     <nav class="navbar">
         <a href="index.html" class="logo">Younger<span>&</span>Cyber</a>
-        <button id="hint-btn" class="quiz-btn hint-btn">
-            <i class="fas fa-lightbulb"></i> Подсказка
-        </button>
     </nav>
 
     <!-- Выбор команды -->
@@ -48,6 +45,10 @@
     <section class="quiz-section" id="quiz-section">
         <div class="container">
             <div class="quiz-header">
+                <!-- Кнопка "Подсказка" здесь, внутри quiz-header -->
+                <button id="hint-btn" class="quiz-btn hint-btn">
+                    <i class="fas fa-lightbulb"></i> Подсказка
+                </button>
                 <h2>Квиз <span id="team-name"></span> команды</h2>
                 <div class="quiz-progress">
                     <div class="progress-bar" id="progress-bar"></div>

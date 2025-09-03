@@ -181,6 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
             currentSteps = selectedTeam === 'red' ? redTeamSteps : blueTeamSteps;
             document.querySelector('.team-selection').style.display = 'none';
             quizSection.style.display = 'block';
+            
             loadStep();
         });
     });
@@ -189,6 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function loadStep() {
         const step = currentSteps[currentStep];
         
+        // ИЗМЕНЕНИЕ: Единственное место, которое управляет видимостью кнопки "Подсказка"
         if (step.hint) {
             hintBtn.style.display = 'flex';
         } else {
@@ -250,6 +252,8 @@ document.addEventListener('DOMContentLoaded', function() {
         gameContentElement.innerHTML = '';
         gameFeedbackElement.innerHTML = '';
         gameFeedbackElement.className = 'game-feedback';
+        gameFeedbackElement.style.backgroundColor = '';
+        gameFeedbackElement.style.color = '';
         
         if (gameData.gameType === 'dragAndDrop') {
             loadDragAndDropGame(gameData);
@@ -260,71 +264,42 @@ document.addEventListener('DOMContentLoaded', function() {
         nextBtn.disabled = userAnswers[currentStep] === undefined;
     }
     
-    // Загрузка игры с перетаскиванием
     function loadDragAndDropGame(gameData) {
         const gameHTML = `
             <div class="drag-game">
                 <p>${gameData.description}</p>
                 <div class="drag-items">
-                    ${gameData.items.map(item => `
-                        <div class="drag-item" draggable="true" data-id="${item.id}">
-                            ${item.text}
-                        </div>
-                    `).join('')}
+                    ${gameData.items.map(item => `<div class="drag-item" draggable="true" data-id="${item.id}">${item.text}</div>`).join('')}
                 </div>
                 <div class="drop-zones">
-                    ${gameData.categories.map(category => `
-                        <div class="drop-zone" data-category="${category.id}">
-                            <h4>${category.title}</h4>
-                        </div>
-                    `).join('')}
+                    ${gameData.categories.map(category => `<div class="drop-zone" data-category="${category.id}"><h4>${category.title}</h4></div>`).join('')}
                 </div>
-            </div>
-        `;
-        
+            </div>`;
         gameContentElement.innerHTML = gameHTML;
-        
         initDragAndDrop(gameData);
     }
-    
-    // Инициализация перетаскивания
     function initDragAndDrop(gameData) {
         const dragItems = document.querySelectorAll('.drag-item');
         const dropZones = document.querySelectorAll('.drop-zone');
         const draggedItems = {};
-        
         dragItems.forEach(item => {
             item.addEventListener('dragstart', function(e) {
                 e.dataTransfer.setData('text/plain', this.dataset.id);
                 this.style.opacity = '0.5';
             });
-            
-            item.addEventListener('dragend', function() {
-                this.style.opacity = '1';
-            });
+            item.addEventListener('dragend', function() { this.style.opacity = '1'; });
         });
-        
         dropZones.forEach(zone => {
-            zone.addEventListener('dragover', function(e) {
-                e.preventDefault();
-                this.classList.add('active');
-            });
-            
-            zone.addEventListener('dragleave', function() {
-                this.classList.remove('active');
-            });
-            
+            zone.addEventListener('dragover', function(e) { e.preventDefault(); this.classList.add('active'); });
+            zone.addEventListener('dragleave', function() { this.classList.remove('active'); });
             zone.addEventListener('drop', function(e) {
                 e.preventDefault();
                 this.classList.remove('active');
-                
                 const itemId = e.dataTransfer.getData('text/plain');
                 const draggedItem = document.querySelector(`.drag-item[data-id="${itemId}"]`);
-                
                 if (draggedItem) {
                     this.appendChild(draggedItem);
                     draggedItems[itemId] = this.dataset.category;
-                    
                     if (Object.keys(draggedItems).length === gameData.items.length) {
                         checkDragAndDropAnswer(gameData, draggedItems);
                     }
@@ -332,17 +307,9 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
-    
-    // Проверка ответа для игры с перетаскиванием
     function checkDragAndDropAnswer(gameData, draggedItems) {
         let allCorrect = true;
-        
-        gameData.items.forEach(item => {
-            if (draggedItems[item.id] !== item.correctCategory) {
-                allCorrect = false;
-            }
-        });
-        
+        gameData.items.forEach(item => { if (draggedItems[item.id] !== item.correctCategory) { allCorrect = false; } });
         if (allCorrect) {
             gameFeedbackElement.textContent = 'Правильно! Все элементы на своих местах.';
             gameFeedbackElement.style.backgroundColor = 'rgba(46, 213, 115, 0.2)';
@@ -355,10 +322,9 @@ document.addEventListener('DOMContentLoaded', function() {
             gameFeedbackElement.style.color = '#ff4757';
             userAnswers[currentStep] = false;
         }
-        
         nextBtn.disabled = false;
     }
-    
+
     // Загрузка игры на сопоставление
     function loadMatchingGame(gameData) {
         const shuffledPairs = [...gameData.pairs].sort(() => Math.random() - 0.5);
@@ -370,25 +336,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 <p>${gameData.description}</p>
                 <div class="match-pairs">
                     <div class="terms">
-                        ${terms.map(term => `
-                            <div class="match-item" data-type="term" data-value="${term}">
-                                ${term}
-                            </div>
-                        `).join('')}
+                        ${terms.map(term => `<div class="match-item" data-type="term" data-value="${term}">${term}</div>`).join('')}
                     </div>
                     <div class="definitions">
-                        ${definitions.map(definition => `
-                            <div class="match-item" data-type="definition" data-value="${definition}">
-                                ${definition}
-                            </div>
-                        `).join('')}
+                        ${definitions.map(definition => `<div class="match-item" data-type="definition" data-value="${definition}">${definition}</div>`).join('')}
                     </div>
                 </div>
-            </div>
-        `;
-        
+            </div>`;
         gameContentElement.innerHTML = gameHTML;
-        
         initMatchingGame(gameData);
     }
     
@@ -400,56 +355,59 @@ document.addEventListener('DOMContentLoaded', function() {
         const matches = {};
         
         matchItems.forEach(item => {
+            // ИЗМЕНЕНИЕ: Не даем кликать по уже правильно сопоставленным элементам
+            if (item.classList.contains('correct')) return;
+
             item.addEventListener('click', function() {
                 if (this.dataset.type === 'term') {
-                    document.querySelectorAll('.match-item[data-type="term"]').forEach(i => {
-                        if (i !== this) i.classList.remove('selected');
-                    });
-                    
+                    document.querySelectorAll('.match-item[data-type="term"]').forEach(i => { if (i !== this) i.classList.remove('selected'); });
                     this.classList.toggle('selected');
                     selectedTerm = this.classList.contains('selected') ? this.dataset.value : null;
                 } else {
-                    document.querySelectorAll('.match-item[data-type="definition"]').forEach(i => {
-                        if (i !== this) i.classList.remove('selected');
-                    });
-                    
+                    document.querySelectorAll('.match-item[data-type="definition"]').forEach(i => { if (i !== this) i.classList.remove('selected'); });
                     this.classList.toggle('selected');
                     selectedDefinition = this.classList.contains('selected') ? this.dataset.value : null;
                 }
                 
                 if (selectedTerm && selectedDefinition) {
                     const isCorrect = checkMatchingPair(gameData, selectedTerm, selectedDefinition);
-                    
+                    const termElement = document.querySelector(`.match-item[data-value="${selectedTerm}"]`);
+                    const defElement = document.querySelector(`.match-item[data-value="${selectedDefinition}"]`);
+
                     if (isCorrect) {
-                        document.querySelectorAll('.match-item').forEach(i => {
-                            if (i.dataset.value === selectedTerm || i.dataset.value === selectedDefinition) {
-                                i.classList.add('correct');
-                                i.classList.remove('selected');
-                                i.style.pointerEvents = 'none';
-                            }
+                        [termElement, defElement].forEach(el => {
+                            el.classList.add('correct');
+                            el.classList.remove('selected');
+                            el.style.pointerEvents = 'none';
                         });
-                        
+
                         matches[selectedTerm] = selectedDefinition;
                         
                         if (Object.keys(matches).length === gameData.pairs.length) {
                             gameFeedbackElement.textContent = 'Правильно! Все пары сопоставлены.';
                             gameFeedbackElement.style.backgroundColor = 'rgba(46, 213, 115, 0.2)';
                             gameFeedbackElement.style.color = '#2ed573';
-                            userAnswers[currentStep] = true;
-                            score++;
+                            if (userAnswers[currentStep] === undefined) {
+                                userAnswers[currentStep] = true;
+                                score++;
+                            }
                             nextBtn.disabled = false;
                         }
                     } else {
-                        document.querySelectorAll('.match-item.selected').forEach(i => {
-                            i.classList.add('incorrect');
-                            setTimeout(() => {
-                                i.classList.remove('selected', 'incorrect');
-                            }, 1000);
-                        });
+                        [termElement, defElement].forEach(el => el.classList.add('incorrect'));
+                        setTimeout(() => { 
+                            [termElement, defElement].forEach(el => el.classList.remove('selected', 'incorrect'));
+                        }, 1000);
                         
                         gameFeedbackElement.textContent = 'Неверное сопоставление. Попробуйте еще раз.';
                         gameFeedbackElement.style.backgroundColor = 'rgba(255, 71, 87, 0.2)';
                         gameFeedbackElement.style.color = '#ff4757';
+                        
+                        // Засчитываем ответ как неверный, только если он еще не был дан
+                        if (userAnswers[currentStep] === undefined) {
+                            userAnswers[currentStep] = false;
+                        }
+                        nextBtn.disabled = false;
                     }
                     
                     selectedTerm = null;
@@ -506,7 +464,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function showResults() {
         quizSection.style.display = 'none';
         resultsSection.style.display = 'flex';
-        hintBtn.style.display = 'none'; // Скрываем кнопку подсказки на экране результатов
+        hintBtn.style.display = 'none'; 
         
         scoreValueElement.textContent = score;
         totalQuestionsElement.textContent = currentSteps.length;
@@ -530,6 +488,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         resultsSection.style.display = 'none';
         document.querySelector('.team-selection').style.display = 'flex';
+        hintBtn.style.display = 'none';
     });
 
     // Логика для модального окна подсказки
