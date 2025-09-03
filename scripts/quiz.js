@@ -5,10 +5,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const resultsSection = document.getElementById('results-section');
     const teamNameElement = document.getElementById('team-name');
     const questionTextElement = document.getElementById('question-text');
-    const optionsContainer = document.getElementById('options-container');
+    const optionsContainer = document.getElementById('options-container'); // <-- Правильный контейнер для вопросов
     const gameContainer = document.getElementById('game-container');
     const gameTitleElement = document.getElementById('game-title');
-    const gameContentElement = document.getElementById('game-content');
+    const gameContentElement = document.getElementById('game-content'); // <-- Контейнер для игр
     const gameFeedbackElement = document.getElementById('game-feedback');
     const progressBar = document.getElementById('progress-bar');
     const questionCounter = document.getElementById('question-counter');
@@ -28,8 +28,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let selectedTeam = '';
     let currentStep = 0;
     let score = 0;
-    let userAnswers = [];
-    let currentSteps = [];
+    let userAnswers = []; 
+    let currentSteps = []; 
     
     // Шаги для Red Team (вопросы и игры чередуются)
     const redTeamSteps = [
@@ -86,6 +86,60 @@ document.addEventListener('DOMContentLoaded', function() {
                 { term: "Ботнет", definition: "Сеть зараженных компьютеров" }
             ],
             hint: "DDoS связан с 'отказом в обслуживании'. Фишинг - с получением 'конфиденциальной информации'."
+        },
+        {
+            type: 'game',
+            gameType: 'bashTerminal',
+            title: "Задача: Настройка безопасности SSH",
+            task: "Вам необходимо отредактировать конфигурационный файл SSH, чтобы отключить вход по паролю и разрешить только вход по ключам. Введите команду для редактирования файла конфигурации SSH:",
+            correctCommand: "sudo nano /etc/sshd_config",
+            filename: "/etc/sshd_config",
+            fileContent: [
+                "# This is the sshd server system-wide configuration file.",
+                "# See sshd_config(5) for more information.",
+                "",
+                "Port 22",
+                "AddressFamily any",
+                "ListenAddress 0.0.0.0",
+                "ListenAddress ::",
+                "",
+                "#HostKey /etc/ssh/ssh_host_rsa_key",
+                "#HostKey /etc/ssh/ssh_host_dsa_key",
+                "#HostKey /etc/ssh/ssh_host_ecdsa_key",
+                "#HostKey /etc/ssh/ssh_host_ed25519_key",
+                "",
+                "# Ciphers and keying",
+                "#KexAlgorithms curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha1",
+                "",
+                "PermitRootLogin prohibit-password",
+                "#PubkeyAuthentication yes", 
+                "",
+                "# The default is to check both .ssh/authorized_keys and .ssh/authorized_keys2",
+                "# but this is overridden so that files can be specified in the AuthorizedKeysFile",
+                "# option, instead of just the default names.",
+                "",
+                "#AuthorizedKeysFile     .ssh/authorized_keys",
+                "PasswordAuthentication yes", 
+                "#ChallengeResponseAuthentication no",
+                "",
+                "# UsePAM yes",
+                "X11Forwarding yes",
+                "PrintMotd no",
+                "",
+                "# Allow client to pass locale environment variables",
+                "AcceptEnv LANG LC_*",
+                "",
+                "Subsystem sftp /usr/lib/openssh/sftp-server",
+                "",
+                "# Set this to 'yes' to enable pam_deny.",
+                "# UsePrivilegeSeparation yes"
+            ],
+            expectedModifications: [
+                "PasswordAuthentication no",
+                "PubkeyAuthentication yes"
+            ],
+            successMessage: "Отлично! Вы успешно имитировали настройку SSH для повышения безопасности.",
+            hint: "Вам нужно открыть файл конфигурации SSH. Обычно это делается командой 'sudo nano /etc/sshd_config'."
         },
         {
             type: 'question',
@@ -190,16 +244,18 @@ document.addEventListener('DOMContentLoaded', function() {
     function loadStep() {
         const step = currentSteps[currentStep];
         
-        // ИЗМЕНЕНИЕ: Единственное место, которое управляет видимостью кнопки "Подсказка"
+        // Управление видимостью кнопки "Подсказка"
         if (step.hint) {
-            hintBtn.style.display = 'flex';
+            hintBtn.style.display = 'flex'; 
         } else {
-            hintBtn.style.display = 'none';
+            hintBtn.style.display = 'none'; 
         }
         
+        // Скрываем все контейнеры перед загрузкой нового шага
         document.querySelector('.question-container').style.display = 'none';
         gameContainer.style.display = 'none';
         
+        // Показываем соответствующий контейнер и загружаем контент
         if (step.type === 'question') {
             document.querySelector('.question-container').style.display = 'block';
             loadQuestion(step);
@@ -208,15 +264,26 @@ document.addEventListener('DOMContentLoaded', function() {
             loadGame(step);
         }
         
+        // Обновляем прогресс-бар и счетчик вопросов
         progressBar.style.width = `${((currentStep + 1) / currentSteps.length) * 100}%`;
+        totalQuestionsElement.textContent = currentSteps.length; 
         questionCounter.textContent = `Шаг ${currentStep + 1} из ${currentSteps.length}`;
         
+        // Обновляем состояние кнопок навигации
         prevBtn.disabled = currentStep === 0;
         
+        // Для последнего шага меняем текст кнопки "Далее" (с использованием innerHTML для иконки)
         if (currentStep === currentSteps.length - 1) {
-            nextBtn.textContent = 'Завершить квиз';
+            nextBtn.innerHTML = 'Завершить квиз'; 
         } else {
-            nextBtn.textContent = 'Далее >';
+            nextBtn.innerHTML = 'Далее <i class="fas fa-arrow-right"></i>'; 
+        }
+
+        // Если ответ на текущий шаг уже был дан, активируем Next
+        if (userAnswers[currentStep] !== undefined) {
+             nextBtn.disabled = false;
+        } else {
+             nextBtn.disabled = true; // Блокируем Next до ответа/выполнения игры
         }
     }
     
@@ -231,6 +298,7 @@ document.addEventListener('DOMContentLoaded', function() {
             optionElement.textContent = option;
             optionElement.setAttribute('data-index', index);
             
+            // Если на этот вопрос уже был дан ответ, подсвечиваем его
             if (userAnswers[currentStep] !== undefined) {
                 if (index === questionData.correct) {
                     optionElement.classList.add('correct');
@@ -243,13 +311,16 @@ document.addEventListener('DOMContentLoaded', function() {
             optionsContainer.appendChild(optionElement);
         });
         
+        // Кнопка "Далее" заблокирована, пока нет ответа
         nextBtn.disabled = userAnswers[currentStep] === undefined;
     }
     
     // Загрузка игры
     function loadGame(gameData) {
         gameTitleElement.textContent = gameData.title;
-        gameContentElement.innerHTML = '';
+        gameContentElement.innerHTML = ''; // Очищаем game-content перед загрузкой новой игры
+
+        // Сбрасываем состояние обратной связи при загрузке новой игры
         gameFeedbackElement.innerHTML = '';
         gameFeedbackElement.className = 'game-feedback';
         gameFeedbackElement.style.backgroundColor = '';
@@ -259,47 +330,79 @@ document.addEventListener('DOMContentLoaded', function() {
             loadDragAndDropGame(gameData);
         } else if (gameData.gameType === 'matching') {
             loadMatchingGame(gameData);
+        } else if (gameData.gameType === 'bashTerminal') {
+            loadBashTerminalGame(gameData);
         }
         
+        // Кнопка "Далее" заблокирована, пока игра не завершена успешно/попытка не сделана
         nextBtn.disabled = userAnswers[currentStep] === undefined;
     }
     
+    // Загрузка игры с перетаскиванием
     function loadDragAndDropGame(gameData) {
         const gameHTML = `
             <div class="drag-game">
                 <p>${gameData.description}</p>
                 <div class="drag-items">
-                    ${gameData.items.map(item => `<div class="drag-item" draggable="true" data-id="${item.id}">${item.text}</div>`).join('')}
+                    ${gameData.items.map(item => `
+                        <div class="drag-item" draggable="true" data-id="${item.id}">
+                            ${item.text}
+                        </div>
+                    `).join('')}
                 </div>
                 <div class="drop-zones">
-                    ${gameData.categories.map(category => `<div class="drop-zone" data-category="${category.id}"><h4>${category.title}</h4></div>`).join('')}
+                    ${gameData.categories.map(category => `
+                        <div class="drop-zone" data-category="${category.id}">
+                            <h4>${category.title}</h4>
+                        </div>
+                    `).join('')}
                 </div>
-            </div>`;
+            </div>
+        `;
+        
         gameContentElement.innerHTML = gameHTML;
+        
         initDragAndDrop(gameData);
     }
+    
+    // Инициализация перетаскивания
     function initDragAndDrop(gameData) {
-        const dragItems = document.querySelectorAll('.drag-item');
-        const dropZones = document.querySelectorAll('.drop-zone');
-        const draggedItems = {};
+        const dragItems = gameContentElement.querySelectorAll('.drag-item'); // Уточняем выборку
+        const dropZones = gameContentElement.querySelectorAll('.drop-zone'); // Уточняем выборку
+        const draggedItems = {}; 
+        
         dragItems.forEach(item => {
             item.addEventListener('dragstart', function(e) {
                 e.dataTransfer.setData('text/plain', this.dataset.id);
                 this.style.opacity = '0.5';
             });
-            item.addEventListener('dragend', function() { this.style.opacity = '1'; });
+            
+            item.addEventListener('dragend', function() {
+                this.style.opacity = '1';
+            });
         });
+        
         dropZones.forEach(zone => {
-            zone.addEventListener('dragover', function(e) { e.preventDefault(); this.classList.add('active'); });
-            zone.addEventListener('dragleave', function() { this.classList.remove('active'); });
+            zone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('active');
+            });
+            
+            zone.addEventListener('dragleave', function() {
+                this.classList.remove('active');
+            });
+            
             zone.addEventListener('drop', function(e) {
                 e.preventDefault();
                 this.classList.remove('active');
+                
                 const itemId = e.dataTransfer.getData('text/plain');
-                const draggedItem = document.querySelector(`.drag-item[data-id="${itemId}"]`);
+                const draggedItem = gameContentElement.querySelector(`.drag-item[data-id="${itemId}"]`); // Уточняем выборку
+                
                 if (draggedItem) {
                     this.appendChild(draggedItem);
-                    draggedItems[itemId] = this.dataset.category;
+                    draggedItems[itemId] = this.dataset.category; 
+                    
                     if (Object.keys(draggedItems).length === gameData.items.length) {
                         checkDragAndDropAnswer(gameData, draggedItems);
                     }
@@ -307,9 +410,17 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+    
+    // Проверка ответа для игры с перетаскиванием
     function checkDragAndDropAnswer(gameData, draggedItems) {
         let allCorrect = true;
-        gameData.items.forEach(item => { if (draggedItems[item.id] !== item.correctCategory) { allCorrect = false; } });
+        
+        gameData.items.forEach(item => {
+            if (draggedItems[item.id] !== item.correctCategory) {
+                allCorrect = false;
+            }
+        });
+        
         if (allCorrect) {
             gameFeedbackElement.textContent = 'Правильно! Все элементы на своих местах.';
             gameFeedbackElement.style.backgroundColor = 'rgba(46, 213, 115, 0.2)';
@@ -320,78 +431,99 @@ document.addEventListener('DOMContentLoaded', function() {
             gameFeedbackElement.textContent = 'Есть ошибки. Попробуйте еще раз.';
             gameFeedbackElement.style.backgroundColor = 'rgba(255, 71, 87, 0.2)';
             gameFeedbackElement.style.color = '#ff4757';
-            userAnswers[currentStep] = false;
+            userAnswers[currentStep] = false; 
         }
-        nextBtn.disabled = false;
+        
+        nextBtn.disabled = false; 
     }
-
+    
     // Загрузка игры на сопоставление
     function loadMatchingGame(gameData) {
         const shuffledPairs = [...gameData.pairs].sort(() => Math.random() - 0.5);
         const terms = shuffledPairs.map(pair => pair.term);
-        const definitions = [...shuffledPairs.map(pair => pair.definition)].sort(() => Math.random() - 0.5);
+        const definitions = [...shuffledPairs.map(pair => pair.definition)].sort(() => Math.random() - 0.5); 
         
         const gameHTML = `
             <div class="match-game">
                 <p>${gameData.description}</p>
                 <div class="match-pairs">
                     <div class="terms">
-                        ${terms.map(term => `<div class="match-item" data-type="term" data-value="${term}">${term}</div>`).join('')}
+                        ${terms.map(term => `
+                            <div class="match-item" data-type="term" data-value="${term}">
+                                ${term}
+                            </div>
+                        `).join('')}
                     </div>
                     <div class="definitions">
-                        ${definitions.map(definition => `<div class="match-item" data-type="definition" data-value="${definition}">${definition}</div>`).join('')}
+                        ${definitions.map(definition => `
+                            <div class="match-item" data-type="definition" data-value="${definition}">
+                                ${definition}
+                            </div>
+                        `).join('')}
                     </div>
                 </div>
-            </div>`;
+            </div>
+        `;
+        
         gameContentElement.innerHTML = gameHTML;
+        
         initMatchingGame(gameData);
     }
     
     // Инициализация игры на сопоставление
     function initMatchingGame(gameData) {
-        const matchItems = document.querySelectorAll('.match-item');
+        const matchItems = gameContentElement.querySelectorAll('.match-item'); // Уточняем выборку
         let selectedTerm = null;
         let selectedDefinition = null;
-        const matches = {};
+        const matches = {}; 
         
         matchItems.forEach(item => {
-            // ИЗМЕНЕНИЕ: Не даем кликать по уже правильно сопоставленным элементам
             if (item.classList.contains('correct')) return;
 
             item.addEventListener('click', function() {
                 if (this.dataset.type === 'term') {
-                    document.querySelectorAll('.match-item[data-type="term"]').forEach(i => { if (i !== this) i.classList.remove('selected'); });
+                    gameContentElement.querySelectorAll('.match-item[data-type="term"]').forEach(i => { // Уточняем выборку
+                        if (i !== this) i.classList.remove('selected');
+                    });
+                    
                     this.classList.toggle('selected');
                     selectedTerm = this.classList.contains('selected') ? this.dataset.value : null;
                 } else {
-                    document.querySelectorAll('.match-item[data-type="definition"]').forEach(i => { if (i !== this) i.classList.remove('selected'); });
+                    gameContentElement.querySelectorAll('.match-item[data-type="definition"]').forEach(i => { // Уточняем выборку
+                        if (i !== this) i.classList.remove('selected');
+                    });
+                    
                     this.classList.toggle('selected');
                     selectedDefinition = this.classList.contains('selected') ? this.dataset.value : null;
                 }
                 
                 if (selectedTerm && selectedDefinition) {
                     const isCorrect = checkMatchingPair(gameData, selectedTerm, selectedDefinition);
-                    const termElement = document.querySelector(`.match-item[data-value="${selectedTerm}"]`);
-                    const defElement = document.querySelector(`.match-item[data-value="${selectedDefinition}"]`);
+                    const termElement = gameContentElement.querySelector(`.match-item[data-value="${selectedTerm}"]`); // Уточняем выборку
+                    const defElement = gameContentElement.querySelector(`.match-item[data-value="${selectedDefinition}"]`); // Уточняем выборку
 
                     if (isCorrect) {
                         [termElement, defElement].forEach(el => {
                             el.classList.add('correct');
                             el.classList.remove('selected');
-                            el.style.pointerEvents = 'none';
+                            el.style.pointerEvents = 'none'; 
                         });
-
+                        
                         matches[selectedTerm] = selectedDefinition;
                         
                         if (Object.keys(matches).length === gameData.pairs.length) {
                             gameFeedbackElement.textContent = 'Правильно! Все пары сопоставлены.';
                             gameFeedbackElement.style.backgroundColor = 'rgba(46, 213, 115, 0.2)';
                             gameFeedbackElement.style.color = '#2ed573';
-                            if (userAnswers[currentStep] === undefined) {
+                            if (userAnswers[currentStep] === undefined) { 
                                 userAnswers[currentStep] = true;
                                 score++;
                             }
                             nextBtn.disabled = false;
+                        } else {
+                             gameFeedbackElement.textContent = '';
+                             gameFeedbackElement.style.backgroundColor = '';
+                             gameFeedbackElement.style.color = '';
                         }
                     } else {
                         [termElement, defElement].forEach(el => el.classList.add('incorrect'));
@@ -403,11 +535,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         gameFeedbackElement.style.backgroundColor = 'rgba(255, 71, 87, 0.2)';
                         gameFeedbackElement.style.color = '#ff4757';
                         
-                        // Засчитываем ответ как неверный, только если он еще не был дан
                         if (userAnswers[currentStep] === undefined) {
                             userAnswers[currentStep] = false;
                         }
-                        nextBtn.disabled = false;
+                        nextBtn.disabled = false; 
                     }
                     
                     selectedTerm = null;
@@ -423,26 +554,162 @@ document.addEventListener('DOMContentLoaded', function() {
         return pair && pair.definition === definition;
     }
     
-    // Выбор варианта ответа
+    // Выбор варианта ответа (для обычных вопросов)
     function selectOption(optionIndex) {
-        if (userAnswers[currentStep] !== undefined) return;
+        if (userAnswers[currentStep] !== undefined) return; 
         
         const question = currentSteps[currentStep];
-        const options = document.querySelectorAll('.option');
+        // ИЗМЕНЕНИЕ: Исправлена выборка элементов для вопросов
+        const options = optionsContainer.querySelectorAll('.option'); 
         
-        userAnswers[currentStep] = optionIndex;
+        userAnswers[currentStep] = optionIndex; 
         
         if (optionIndex === question.correct) {
             options[optionIndex].classList.add('correct');
             score++;
         } else {
             options[optionIndex].classList.add('incorrect');
-            options[question.correct].classList.add('correct');
+            options[question.correct].classList.add('correct'); 
         }
         
-        nextBtn.disabled = false;
+        nextBtn.disabled = false; 
     }
-    
+
+    // --- НОВАЯ ФУНКЦИЯ: Загрузка игры Bash-терминал ---
+    function loadBashTerminalGame(gameData) {
+        const bashGameHTML = `
+            <div class="bash-terminal-game">
+                <p class="bash-task">${gameData.task}</p>
+                <div class="terminal-window">
+                    <div class="terminal-header">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                        <span class="title">bash</span>
+                    </div>
+                    <div class="terminal-body">
+                        <pre class="terminal-output"></pre>
+                        <div class="file-editor-display" style="display: none;">
+                            <p class="editor-info">Редактирование файла: <span class="editor-filename"></span></p>
+                            <pre class="file-content-editor" contenteditable="true"></pre> 
+                            <p class="editor-guide">Измените <span class="highlight">PasswordAuthentication yes</span> на <span class="highlight">PasswordAuthentication no</span> и убедитесь, что <span class="highlight">PubkeyAuthentication yes</span> не закомментирована.</p>
+                            <button class="save-bash-changes-btn quiz-btn">Применить изменения</button>
+                        </div>
+                        <div class="terminal-input-area">
+                            <span class="prompt">user@ Younger&Cyber:~$</span>
+                            <input type="text" class="terminal-input" autofocus>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+
+        gameContentElement.innerHTML = bashGameHTML; 
+        
+        // Теперь, когда HTML есть в DOM, выбираем его элементы из gameContentElement
+        const currentBashTaskElement = gameContentElement.querySelector('.bash-task');
+        const currentTerminalOutput = gameContentElement.querySelector('.terminal-output');
+        const currentTerminalInput = gameContentElement.querySelector('.terminal-input');
+        const currentFileEditorDisplay = gameContentElement.querySelector('.file-editor-display');
+        const currentEditorFilename = gameContentElement.querySelector('.editor-filename'); 
+        const currentFileContentEditor = gameContentElement.querySelector('.file-content-editor');
+        const currentSaveBashChangesBtn = gameContentElement.querySelector('.save-bash-changes-btn'); 
+
+        currentBashTaskElement.textContent = gameData.task; 
+        currentTerminalOutput.textContent = ''; 
+        currentTerminalInput.value = ''; 
+        currentTerminalInput.focus(); 
+
+        currentFileEditorDisplay.style.display = 'none'; 
+        currentSaveBashChangesBtn.style.display = 'none'; 
+        
+        // Обработчик ввода команды
+        currentTerminalInput.onkeydown = (e) => {
+            if (e.key === 'Enter') {
+                const command = currentTerminalInput.value.trim();
+                currentTerminalOutput.textContent += `user@ Younger&Cyber:~$ ${command}\n`; 
+
+                if (command.toLowerCase() === gameData.correctCommand.toLowerCase()) {
+                    currentTerminalOutput.textContent += `Открываю файл ${gameData.filename}...\n\n`;
+                    displaySimulatedFile(gameData, currentEditorFilename, currentFileContentEditor);
+                    currentTerminalInput.disabled = true; 
+                    currentFileEditorDisplay.style.display = 'block'; 
+                    currentSaveBashChangesBtn.style.display = 'block'; 
+                    gameFeedbackElement.textContent = 'Вы открыли файл. Теперь имитируйте изменения и нажмите "Применить изменения".';
+                    gameFeedbackElement.style.backgroundColor = 'rgba(108, 92, 231, 0.2)';
+                    gameFeedbackElement.style.color = '#6c5ce7';
+                    nextBtn.disabled = true; 
+                } else {
+                    currentTerminalOutput.textContent += `Ошибка: Команда '${command}' не найдена или неверна.\n`;
+                    currentTerminalInput.value = ''; 
+                    gameFeedbackElement.textContent = 'Неверная команда. Попробуйте еще раз.';
+                    gameFeedbackElement.style.backgroundColor = 'rgba(255, 71, 87, 0.2)';
+                    gameFeedbackElement.style.color = '#ff4757';
+                }
+                currentTerminalInput.value = ''; 
+                currentTerminalOutput.scrollTop = currentTerminalOutput.scrollHeight; 
+            }
+        };
+
+        // Обработчик кнопки "Применить изменения"
+        currentSaveBashChangesBtn.onclick = () => {
+            const modifiedContent = currentFileContentEditor.textContent;
+            let isCorrectlyModified = true;
+            let feedbackMessage = '';
+
+            // 1. Проверка PasswordAuthentication
+            if (!modifiedContent.includes("PasswordAuthentication no")) {
+                isCorrectlyModified = false;
+                feedbackMessage += "Ошибка: 'PasswordAuthentication no' не найдено.\n";
+            }
+            if (modifiedContent.includes("PasswordAuthentication yes")) {
+                isCorrectlyModified = false;
+                feedbackMessage += "Ошибка: 'PasswordAuthentication yes' все еще активно.\n";
+            }
+
+            // 2. Проверка PubkeyAuthentication
+            if (!modifiedContent.includes("PubkeyAuthentication yes")) {
+                isCorrectlyModified = false;
+                feedbackMessage += "Ошибка: 'PubkeyAuthentication yes' не раскомментировано или изменено некорректно.\n";
+            }
+            if (modifiedContent.includes("#PubkeyAuthentication yes")) {
+                isCorrectlyModified = false;
+                feedbackMessage += "Ошибка: 'PubkeyAuthentication yes' все еще закомментировано.\n";
+            }
+
+            if (isCorrectlyModified) {
+                if (userAnswers[currentStep] === undefined) { 
+                    userAnswers[currentStep] = true;
+                    score++;
+                }
+                gameFeedbackElement.textContent = gameData.successMessage;
+                gameFeedbackElement.style.backgroundColor = 'rgba(46, 213, 115, 0.2)';
+                gameFeedbackElement.style.color = '#2ed573';
+                nextBtn.disabled = false; 
+                currentTerminalInput.disabled = true; 
+                currentFileContentEditor.setAttribute('contenteditable', 'false'); // Заблокировать редактирование после успеха
+                currentSaveBashChangesBtn.style.display = 'none'; 
+            } else {
+                gameFeedbackElement.textContent = `Ваши изменения неверны. ${feedbackMessage.trim()} Попробуйте еще раз.`;
+                gameFeedbackElement.style.backgroundColor = 'rgba(255, 71, 87, 0.2)';
+                gameFeedbackElement.style.color = '#ff4757';
+                
+                // Даже при ошибке позволяем перейти дальше, но не начисляем баллы
+                if (userAnswers[currentStep] === undefined) {
+                    userAnswers[currentStep] = false;
+                }
+                nextBtn.disabled = false; 
+            }
+        };
+    }
+
+    // Функция для отображения симулированного содержимого файла в редакторе
+    function displaySimulatedFile(gameData, editorFilenameElement, fileContentEditorElement) {
+        editorFilenameElement.textContent = gameData.filename;
+        fileContentEditorElement.textContent = gameData.fileContent.join('\n'); // Помещаем сырой текст для редактирования
+        fileContentEditorElement.setAttribute('contenteditable', 'true'); // Делаем его редактируемым
+        fileContentEditorElement.focus(); // Устанавливаем фокус на редактор
+    }
+
     // Обработчики кнопок навигации
     prevBtn.addEventListener('click', () => {
         if (currentStep > 0) {
@@ -452,6 +719,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     nextBtn.addEventListener('click', () => {
+        if (nextBtn.disabled) return; 
+
         if (currentStep < currentSteps.length - 1) {
             currentStep++;
             loadStep();
@@ -488,7 +757,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         resultsSection.style.display = 'none';
         document.querySelector('.team-selection').style.display = 'flex';
-        hintBtn.style.display = 'none';
+        hintBtn.style.display = 'none'; 
     });
 
     // Логика для модального окна подсказки

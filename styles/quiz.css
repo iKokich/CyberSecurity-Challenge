@@ -6,8 +6,8 @@
     left: 0;
     width: 100%;
     z-index: 1000;
-    display: flex; /* Добавлено, чтобы логотип был слева */
-    justify-content: flex-start; /* Добавлено, чтобы логотип был слева */
+    display: flex;
+    justify-content: flex-start;
     align-items: center;
 }
 
@@ -500,6 +500,153 @@
     color: #a5b1c2;
 }
 
+/* Стили для Bash-терминала */
+.bash-terminal-game {
+    text-align: left;
+}
+
+.bash-task {
+    color: #fff;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.terminal-window {
+    background: #1e1e1e;
+    border-radius: 8px;
+    overflow: hidden;
+    font-family: 'Consolas', 'Monaco', 'Lucida Console', monospace;
+    font-size: 0.95rem;
+    color: #0f0; /* Зеленый текст для вывода */
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+}
+
+.terminal-header {
+    background: #333;
+    padding: 8px 15px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #444;
+}
+
+.terminal-header .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.terminal-header .dot.red { background: #ff5f56; }
+.terminal-header .dot.yellow { background: #ffbd2e; }
+.terminal-header .dot.green { background: #27c93f; }
+
+.terminal-header .title {
+    color: #ccc;
+    font-size: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.terminal-body {
+    padding: 15px;
+    min-height: 200px; /* Минимальная высота для терминала */
+    max-height: 400px; /* Максимальная высота */
+    overflow-y: auto; /* Прокрутка, если контент больше */
+    background: #000;
+}
+
+.terminal-output {
+    white-space: pre-wrap; /* Перенос строк */
+    word-wrap: break-word;
+    margin: 0;
+    padding: 0;
+    color: #0f0; /* Цвет вывода */
+    font-size: 0.95rem;
+}
+
+.file-editor-display {
+    background: #282a36; /* Цвет фона редактора */
+    color: #f8f8f2; /* Цвет текста редактора */
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 15px;
+    display: none; /* Скрыт по умолчанию */
+}
+
+.file-editor-display .editor-info {
+    color: #6272a4; /* Более тусклый цвет для информации */
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+.file-editor-display .editor-info span {
+    color: #50fa7b; /* Выделение имени файла */
+    font-weight: bold;
+}
+
+.file-content-editor {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    min-height: 100px;
+    border: 1px dashed #6272a4; /* Рамка для имитации редактируемой области */
+    padding: 10px;
+    margin-bottom: 15px;
+    color: #f8f8f2; /* Основной цвет текста файла */
+    outline: none; /* Убираем стандартную обводку при фокусе */
+    cursor: text; /* Курсор как в текстовом поле */
+}
+
+.file-content-editor .comment {
+    color: #6a9955; /* Цвет комментариев */
+}
+
+.file-content-editor .highlight-line {
+    background-color: rgba(255, 255, 0, 0.1); /* Подсветка для нужных строк */
+    display: block; /* Чтобы подсветка занимала всю ширину строки */
+    padding: 2px 0;
+}
+
+.file-editor-display .editor-guide {
+    color: #bd93f9; /* Цвет подсказки для редактирования */
+    margin-bottom: 15px;
+    font-size: 1rem;
+}
+
+.file-editor-display .editor-guide .highlight {
+    color: #ff79c6; /* Выделение ключевых слов в подсказке */
+    font-weight: bold;
+}
+
+
+#save-bash-changes-btn {
+    margin-top: 10px;
+    width: auto;
+    display: block; /* Кнопка занимает всю ширину по умолчанию */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.terminal-input-area {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.prompt {
+    color: #50fa7b; /* Зеленый цвет для промпта */
+    margin-right: 5px;
+}
+
+.terminal-input {
+    flex-grow: 1;
+    background: transparent;
+    border: none;
+    color: #f8f8f2; /* Цвет ввода пользователя */
+    outline: none;
+    padding: 0;
+    font-family: 'Consolas', 'Monaco', 'Lucida Console', monospace;
+    font-size: 0.95rem;
+}
 
 /* Адаптивность */
 @media (max-width: 768px) {
@@ -510,6 +657,15 @@
     .hint-btn {
         padding: 8px 15px;
         font-size: 0.9rem;
+        position: static; /* Статичное позиционирование на маленьких экранах */
+        margin-bottom: 20px; /* Отступ снизу */
+        align-self: center; /* Центрирование */
+    }
+    
+    .quiz-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Центрирование элементов в шапке */
     }
 
     .team-selection,
@@ -564,5 +720,17 @@
     
     .score-circle span:first-child {
         font-size: 2.5rem;
+    }
+
+    .terminal-body {
+        min-height: 150px;
+        max-height: 300px;
+        padding: 10px;
+    }
+    .terminal-output, .terminal-input, .file-content-editor {
+        font-size: 0.85rem;
+    }
+    .prompt {
+        font-size: 0.85rem;
     }
 }
