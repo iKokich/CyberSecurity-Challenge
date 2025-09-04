@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Визуальная новелла - Younger&Cyber</title>
+  <link rel="stylesheet" href="styles/main.css"/> <!-- Подключаем основной файл стилей сайта -->
+  <link rel="stylesheet" href="styles/game.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Навигационное меню (как на главной странице) -->
+  <nav class="navbar">
+    <a href="index.html" class="logo">Younger<span>&</span>Cyber</a>
+  </nav>
+
+  <!-- Обертка для центрирования игрового окна -->
+  <div class="game-wrapper">
+    <div id="game-window">
+
+      <!-- Добавляем классы quiz-btn и hint-btn-game для стилизации -->
+      <button id="hint-btn" class="quiz-btn hint-btn-game">💡 Подсказка</button>
+      <div id="overlay"></div>
+
+      <div id="cat-container">
+        <img id="cat-image" src="assets/img/cat_saying.png" alt="Котёнок">
+        <div id="cat-speech">Привет! Я твой помощник в этой истории.</div>
+      </div>
+
+      <!-- Добавляем классы quiz-btn и next-btn-game для стилизации -->
+      <button id="next-btn" class="quiz-btn next-btn-game">Далее ▶</button>
+      <div id="scene-container"></div>
+      <div id="choice-box" class="hidden"></div>
+
+      <!-- Модальное окно для ввода пароля - используем классы для соответствия дизайну сайта -->
+      <div id="password-modal" class="modal hidden">
+        <div class="modal-content">
+          <p id="modal-text">Введите пароль для сети</p>
+          <input type="password" id="modal-input" placeholder="Пароль" />
+          <div class="modal-buttons">
+            <button id="modal-ok" class="cta-button">OK</button>
+            <button id="modal-cancel" class="quiz-btn">Отмена</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <script src="scripts/game.js"></script>
+</body>
+</html>

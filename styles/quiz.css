@@ -55,6 +55,11 @@
     cursor: pointer;
     transition: all 0.3s ease;
     border: 3px solid transparent;
+    /* Убедимся, что a.team-card тоже выглядит как div */
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .team-card:hover {
@@ -72,6 +77,16 @@
     box-shadow: 0 15px 35px rgba(55, 66, 250, 0.2);
 }
 
+/* Стили для новой карточки мини-игры */
+.minigame-team:hover {
+    border-color: #ffcc00; /* Желтый цвет для мини-игры */
+    box-shadow: 0 15px 35px rgba(255, 204, 0, 0.2);
+}
+.minigame-team .team-icon {
+    color: #ffcc00; /* Желтый цвет иконки */
+}
+
+
 .team-icon {
     font-size: 3.5rem;
     margin-bottom: 25px;
@@ -88,6 +103,7 @@
 .team-card h3 {
     font-size: 1.8rem;
     margin-bottom: 15px;
+    color: #fff; /* Цвет заголовка, если он не наследуется */
 }
 
 .team-card p {
@@ -657,7 +673,9 @@
 }
 
 .drag-to-input-game .drag-to-input-image {
-    max-width: 100%;
+    max-width: 400px;
+    max-height: 250px;
+    width: 100%;
     height: auto;
     border-radius: 10px;
     margin-bottom: 15px;
@@ -735,6 +753,166 @@
     color: #ff4757;
 }
 
+/* Стили для игры "Шифр Цезаря" */
+.caesar-cipher-game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+}
+
+.caesar-cipher-game .bash-task { /* Используем тот же класс для заголовка задачи */
+    text-align: center;
+}
+
+.caesar-alphabet-table-container {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start; /* Выравнивание по верхнему краю */
+    width: 100%;
+    max-width: 700px;
+}
+
+.caesar-alphabet-table {
+    display: grid;
+    grid-template-columns: repeat(13, 1fr); /* 13 колонок для английского алфавита */
+    gap: 5px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.alphabet-letter-cell {
+    width: 40px; /* Увеличена ширина для нумерации */
+    height: 40px; /* Увеличена высота */
+    display: flex;
+    flex-direction: column; /* Для размещения буквы и номера */
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem; /* Размер буквы */
+    font-weight: 500;
+    color: #d1d8e0;
+    background: rgba(108, 92, 231, 0.1); /* Легкий фон */
+    border-radius: 4px;
+    position: relative; /* Для позиционирования номера */
+}
+
+.alphabet-letter-cell .letter {
+    font-weight: bold;
+    font-size: 1.2em; /* Чуть крупнее буква */
+}
+
+.alphabet-letter-cell .number {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    font-size: 0.7em; /* Маленький размер для номера */
+    color: #ffcc00; /* Цвет номера */
+    font-weight: bold;
+}
+
+
+.cipher-input-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.cipher-letter-block-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Отступ между блоками */
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.cipher-letter-block {
+    width: 60px; /* Ширина блока */
+    height: 60px; /* Высота блока (чтобы был квадратным) */
+    background: #2b2b3b; /* Темный фон, как у кнопок */
+    border: 2px solid #6c5ce7; /* Рамка как у кнопок */
+    border-radius: 8px; /* Немного закругленные углы */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem; /* Большой шрифт для буквы */
+    font-weight: 800;
+    color: #fff;
+    cursor: text;
+    outline: none; /* Убираем стандартную обводку */
+    transition: all 0.2s ease;
+    text-transform: uppercase; /* Всегда заглавные буквы */
+}
+
+.cipher-letter-block:focus {
+    border-color: #ffcc00; /* Подсветка при фокусе */
+    box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.3);
+}
+
+/* Контейнер для кнопок "Проверить" и "Пропустить" */
+.caesar-controls {
+    display: flex;
+    gap: 15px; /* Отступ между кнопками */
+    justify-content: center;
+    flex-wrap: wrap; /* Для адаптивности */
+}
+
+.check-caesar-btn {
+    /* Наследует quiz-btn стили */
+    padding: 15px 30px;
+    background: #6c5ce7;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.check-caesar-btn:hover:not(:disabled) {
+    background: #5d4ae0;
+    transform: translateY(-3px);
+}
+.check-caesar-btn:disabled {
+    background: #4a4a6d;
+    cursor: not-allowed;
+}
+
+/* Стили для кнопки "Пропустить" */
+.skip-caesar-btn {
+    padding: 15px 30px;
+    background: rgba(255, 178, 102, 0.2); /* Светло-оранжевый фон */
+    border: 2px solid #ff9933; /* Оранжевая рамка */
+    color: #ff9933; /* Оранжевый текст */
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.skip-caesar-btn:hover:not(:disabled) {
+    background: rgba(255, 178, 102, 0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 178, 102, 0.3);
+}
+
+.skip-caesar-btn:disabled {
+    background: #4a4a6d;
+    border-color: #4a4a6d;
+    color: #ccc;
+    cursor: not-allowed;
+}
+
 
 /* Адаптивность */
 @media (max-width: 768px) {
@@ -745,15 +923,15 @@
     .hint-btn {
         padding: 8px 15px;
         font-size: 0.9rem;
-        position: static; /* Статичное позиционирование на маленьких экранах */
-        margin-bottom: 20px; /* Отступ снизу */
-        align-self: center; /* Центрирование */
+        position: static;
+        margin-bottom: 20px;
+        align-self: center;
     }
     
     .quiz-header {
         display: flex;
         flex-direction: column;
-        align-items: center; /* Центрирование элементов в шапке */
+        align-items: center;
     }
 
     .team-selection,
@@ -788,6 +966,11 @@
         font-size: 1.3rem;
     }
     
+    .drag-to-input-game .drag-to-input-image {
+        max-width: 100%;
+        max-height: 200px;
+    }
+
     .drop-zones {
         flex-direction: column;
     }
@@ -816,7 +999,7 @@
         max-height: 300px;
         padding: 10px;
     }
-    .terminal-output, .terminal-input, .file-content-editor {
+    .terminal-output, .terminal-input, .file-editor-display .editor-info {
         font-size: 0.85rem;
     }
     .prompt {
@@ -829,5 +1012,52 @@
     .drag-option-item {
         padding: 10px 20px;
         font-size: 1rem;
+    }
+
+    /* Адаптивность для Caesar Cipher */
+    .caesar-alphabet-table-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .caesar-alphabet-table {
+        grid-template-columns: repeat(auto-fill, minmax(30px, 1fr)); 
+        gap: 3px;
+        padding: 8px;
+    }
+    .alphabet-letter-cell {
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
+    }
+    .cipher-letter-block {
+        width: 50px;
+        height: 50px;
+        font-size: 1.8rem;
+    }
+    .cipher-letter-block-container {
+        gap: 8px;
+    }
+    .caesar-controls {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .caesar-alphabet-table {
+        grid-template-columns: repeat(auto-fill, minmax(25px, 1fr));
+    }
+    .alphabet-letter-cell {
+        width: 25px;
+        height: 25px;
+        font-size: 0.8rem;
+    }
+    .alphabet-letter-cell .number {
+        font-size: 0.6em;
+    }
+    .cipher-letter-block {
+        width: 45px;
+        height: 45px;
+        font-size: 1.5rem;
     }
 }

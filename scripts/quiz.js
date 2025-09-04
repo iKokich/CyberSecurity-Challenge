@@ -5,10 +5,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const resultsSection = document.getElementById('results-section');
     const teamNameElement = document.getElementById('team-name');
     const questionTextElement = document.getElementById('question-text');
-    const optionsContainer = document.getElementById('options-container'); // <-- Правильный контейнер для вопросов
+    const optionsContainer = document.getElementById('options-container'); 
     const gameContainer = document.getElementById('game-container');
     const gameTitleElement = document.getElementById('game-title');
-    const gameContentElement = document.getElementById('game-content'); // <-- Контейнер для игр
+    const gameContentElement = document.getElementById('game-content'); 
     const gameFeedbackElement = document.getElementById('game-feedback');
     const progressBar = document.getElementById('progress-bar');
     const questionCounter = document.getElementById('question-counter');
@@ -18,11 +18,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const totalQuestionsElement = document.getElementById('total-questions');
     const scoreMessageElement = document.getElementById('score-message');
     const restartBtn = document.getElementById('restart-btn');
-    const hintBtn = document.getElementById('hint-btn'); // Кнопка подсказки
-    const modalOverlay = document.getElementById('modal-overlay'); // Фон модального окна
-    const hintModal = document.getElementById('hint-modal'); // Само модальное окно
-    const hintTextElementModal = document.getElementById('hint-text'); // Текст подсказки в модальном окне
-    const closeModalBtn = document.querySelector('.close-btn'); // Кнопка закрытия модального окна
+    const hintBtn = document.getElementById('hint-btn');
+    const modalOverlay = document.getElementById('modal-overlay');
+    const hintModal = document.getElementById('hint-modal');
+    const hintTextElementModal = document.getElementById('hint-text');
+    const closeModalBtn = document.querySelector('.close-btn');
     
     // Переменные состояния
     let selectedTeam = '';
@@ -30,6 +30,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let score = 0;
     let userAnswers = []; 
     let currentSteps = []; 
+
+    // Английский алфавит для шифра Цезаря
+    const englishAlphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     
     // Шаги для Red Team (вопросы и игры чередуются)
     const redTeamSteps = [
@@ -93,10 +96,21 @@ document.addEventListener('DOMContentLoaded', function() {
             gameType: 'dragToInput',
             title: "Инструмент для перебора паролей",
             question: "Чем пользуются хакеры для перебора пароля, для его получения?",
-            imageUrl: "assets/img/forgot.svg", 
+            imageUrl: "assets/img/password_cracking.png", // Вам нужно будет создать папку 'images' и поместить туда картинку.
             options: ["hydra", "nmap", "metasploit", "dirb"],
             correctOptionIndex: 0, // 'hydra'
             hint: "Название программы похоже на имя мифического существа."
+        },
+        // НОВЫЙ ШАГ: Шифр Цезаря (с английским алфавитом)
+        {
+            type: 'game',
+            gameType: 'caesarCipher',
+            title: "Расшифровка шифра Цезаря",
+            task: "Расшифруйте слово с длиной ключа 13 (сдвиг назад на 13 позиций):",
+            ciphertext: "UNPXRE", // Зашифрованное слово
+            key: 13, // Ключ для расшифровки (сдвиг назад)
+            correctAnswer: "HACKER", // Правильный ответ
+            hint: "БЫЛ КОГДА ТО ТАКОЙ ЦАРЬ И ЕГО ЗВАЛИ ЦЕЗАРЬ. Шифр Цезаря использует сдвиг букв по алфавиту." // Подсказка изменена для контекста
         },
         {
             type: 'game',
@@ -183,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             type: 'game',
             gameType: 'dragAndDrop',
-            title: "Распределите инструменты по категориям",
+            title: "Распределите действия по командам",
             description: "Перетащите элементы в соответствующие зоны",
             items: [
                 { id: 1, text: "Wireshark", correctCategory: "analysis" },
@@ -343,8 +357,10 @@ document.addEventListener('DOMContentLoaded', function() {
             loadMatchingGame(gameData);
         } else if (gameData.gameType === 'bashTerminal') {
             loadBashTerminalGame(gameData);
-        } else if (gameData.gameType === 'dragToInput') { // <-- Новый тип игры
+        } else if (gameData.gameType === 'dragToInput') {
             loadDragToInputGame(gameData);
+        } else if (gameData.gameType === 'caesarCipher') { 
+            loadCaesarCipherGame(gameData);
         }
         
         // Кнопка "Далее" заблокирована, пока игра не завершена успешно/попытка не сделана
@@ -380,8 +396,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Инициализация перетаскивания
     function initDragAndDrop(gameData) {
-        const dragItems = gameContentElement.querySelectorAll('.drag-item'); // Уточняем выборку
-        const dropZones = gameContentElement.querySelectorAll('.drop-zone'); // Уточняем выборку
+        const dragItems = gameContentElement.querySelectorAll('.drag-item'); 
+        const dropZones = gameContentElement.querySelectorAll('.drop-zone'); 
         const draggedItems = {}; 
         
         dragItems.forEach(item => {
@@ -410,7 +426,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.classList.remove('active');
                 
                 const itemId = e.dataTransfer.getData('text/plain');
-                const draggedItem = gameContentElement.querySelector(`.drag-item[data-id="${itemId}"]`); // Уточняем выборку
+                const draggedItem = gameContentElement.querySelector(`.drag-item[data-id="${itemId}"]`); 
                 
                 if (draggedItem) {
                     this.appendChild(draggedItem);
@@ -485,7 +501,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Инициализация игры на сопоставление
     function initMatchingGame(gameData) {
-        const matchItems = gameContentElement.querySelectorAll('.match-item'); // Уточняем выборку
+        const matchItems = gameContentElement.querySelectorAll('.match-item'); 
         let selectedTerm = null;
         let selectedDefinition = null;
         const matches = {}; 
@@ -495,14 +511,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
             item.addEventListener('click', function() {
                 if (this.dataset.type === 'term') {
-                    gameContentElement.querySelectorAll('.match-item[data-type="term"]').forEach(i => { // Уточняем выборку
+                    gameContentElement.querySelectorAll('.match-item[data-type="term"]').forEach(i => { 
                         if (i !== this) i.classList.remove('selected');
                     });
                     
                     this.classList.toggle('selected');
                     selectedTerm = this.classList.contains('selected') ? this.dataset.value : null;
                 } else {
-                    gameContentElement.querySelectorAll('.match-item[data-type="definition"]').forEach(i => { // Уточняем выборку
+                    gameContentElement.querySelectorAll('.match-item[data-type="definition"]').forEach(i => { 
                         if (i !== this) i.classList.remove('selected');
                     });
                     
@@ -512,8 +528,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 if (selectedTerm && selectedDefinition) {
                     const isCorrect = checkMatchingPair(gameData, selectedTerm, selectedDefinition);
-                    const termElement = gameContentElement.querySelector(`.match-item[data-value="${selectedTerm}"]`); // Уточняем выборку
-                    const defElement = gameContentElement.querySelector(`.match-item[data-value="${selectedDefinition}"]`); // Уточняем выборку
+                    const termElement = gameContentElement.querySelector(`.match-item[data-value="${selectedTerm}"]`); 
+                    const defElement = gameContentElement.querySelector(`.match-item[data-value="${selectedDefinition}"]`); 
 
                     if (isCorrect) {
                         [termElement, defElement].forEach(el => {
@@ -572,7 +588,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (userAnswers[currentStep] !== undefined) return; 
         
         const question = currentSteps[currentStep];
-        const options = optionsContainer.querySelectorAll('.option'); // <-- ИСПРАВЛЕНИЕ: Правильная выборка
+        const options = optionsContainer.querySelectorAll('.option'); 
         
         userAnswers[currentStep] = optionIndex; 
         
@@ -617,7 +633,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         gameContentElement.innerHTML = bashGameHTML; 
         
-        // Теперь, когда HTML есть в DOM, выбираем его элементы из gameContentElement
         const currentBashTaskElement = gameContentElement.querySelector('.bash-task');
         const currentTerminalOutput = gameContentElement.querySelector('.terminal-output');
         const currentTerminalInput = gameContentElement.querySelector('.terminal-input');
@@ -716,12 +731,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Функция для отображения симулированного содержимого файла в редакторе
     function displaySimulatedFile(gameData, editorFilenameElement, fileContentEditorElement) {
         editorFilenameElement.textContent = gameData.filename;
-        fileContentEditorElement.textContent = gameData.fileContent.join('\n'); // Помещаем сырой текст для редактирования
-        fileContentEditorElement.setAttribute('contenteditable', 'true'); // Делаем его редактируемым
-        fileContentEditorElement.focus(); // Устанавливаем фокус на редактор
+        fileContentEditorElement.textContent = gameData.fileContent.join('\n'); 
+        fileContentEditorElement.setAttribute('contenteditable', 'true'); 
+        fileContentEditorElement.focus(); 
     }
 
-    // --- НОВАЯ ФУНКЦИЯ: Загрузка игры DragToInput ---
+    // --- Загрузка игры DragToInput ---
     function loadDragToInputGame(gameData) {
         const dragToInputHTML = `
             <div class="drag-to-input-game">
@@ -756,7 +771,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         dropTargetInput.addEventListener('dragover', (e) => {
-            e.preventDefault(); // Разрешаем сброс
+            e.preventDefault(); 
             dropTargetInput.classList.add('drag-over');
         });
 
@@ -768,7 +783,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             dropTargetInput.classList.remove('drag-over');
             
-            dropTargetInput.textContent = draggedItemValue; // Показываем перетащенный текст
+            dropTargetInput.textContent = draggedItemValue; 
 
             if (draggedItemValue.toLowerCase() === gameData.options[gameData.correctOptionIndex].toLowerCase()) {
                 dropTargetInput.classList.add('correct');
@@ -788,11 +803,167 @@ document.addEventListener('DOMContentLoaded', function() {
                     userAnswers[currentStep] = false;
                 }
             }
-            nextBtn.disabled = false; // Активируем кнопку "Далее" после попытки
-            // Блокируем дальнейшие перетаскивания
+            nextBtn.disabled = false; 
             dragOptionItems.forEach(item => item.draggable = false);
-            dropTargetInput.style.pointerEvents = 'none'; // Отключаем drop-зону
+            dropTargetInput.style.pointerEvents = 'none'; 
         });
+    }
+
+    // --- Загрузка игры Шифр Цезаря ---
+    function loadCaesarCipherGame(gameData) {
+        const alphabetHtml = englishAlphabet.split('').map((letter, index) => `
+            <div class="alphabet-letter-cell">
+                <span class="letter">${letter}</span>
+                <span class="number">${index + 1}</span>
+            </div>
+        `).join('');
+
+        const cipherBlocksHtml = gameData.ciphertext.split('').map((letter, index) => `
+            <div class="cipher-letter-block" contenteditable="true" data-index="${index}">${letter}</div>
+        `).join('');
+
+        const caesarGameHTML = `
+            <div class="caesar-cipher-game">
+                <p class="bash-task">${gameData.task}</p>
+                <div class="caesar-alphabet-table-container">
+                    <div>
+                        <p style="color: #6c5ce7; font-weight: bold; margin-bottom: 10px;">Английский алфавит:</p>
+                        <div class="caesar-alphabet-table">
+                            ${alphabetHtml}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cipher-input-section">
+                    <p style="color: #d1d8e0; margin-bottom: 10px;">Ваш ответ:</p>
+                    <div class="cipher-letter-block-container">
+                        ${cipherBlocksHtml}
+                    </div>
+                    <div class="caesar-controls">
+                        <button class="check-caesar-btn quiz-btn">Проверить</button>
+                        <button class="skip-caesar-btn quiz-btn">Пропустить</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        gameContentElement.innerHTML = caesarGameHTML;
+
+        const cipherLetterBlocks = gameContentElement.querySelectorAll('.cipher-letter-block');
+        const checkCaesarBtn = gameContentElement.querySelector('.check-caesar-btn');
+        const skipCaesarBtn = gameContentElement.querySelector('.skip-caesar-btn');
+
+        // Функция для отключения всех элементов ввода и кнопок
+        function disableCaesarGameElements() {
+            cipherLetterBlocks.forEach(block => block.contentEditable = 'false');
+            checkCaesarBtn.disabled = true;
+            skipCaesarBtn.disabled = true;
+        }
+
+        cipherLetterBlocks.forEach(block => {
+            block.addEventListener('input', (e) => {
+                let value = e.target.textContent.toUpperCase();
+                // Ограничиваем ввод одной английской буквой
+                if (value.length > 1 || !englishAlphabet.includes(value)) {
+                    value = value.charAt(0) || ''; 
+                    if (!englishAlphabet.includes(value)) value = ''; 
+                    e.target.textContent = value;
+                }
+                // Перемещаем фокус на следующий блок
+                if (value.length === 1) {
+                    const currentIndex = parseInt(e.target.dataset.index);
+                    if (currentIndex < cipherLetterBlocks.length - 1) {
+                        cipherLetterBlocks[currentIndex + 1].focus();
+                    } else {
+                        checkCaesarBtn.focus(); 
+                    }
+                }
+                // Активируем кнопку "Проверить", если все блоки заполнены
+                const allBlocksFilled = Array.from(cipherLetterBlocks).every(b => b.textContent.length === 1);
+                checkCaesarBtn.disabled = !allBlocksFilled;
+            });
+
+            block.addEventListener('keydown', (e) => {
+                // Разрешаем Backspace, Delete, стрелки
+                if (e.key === 'Backspace' || e.key === 'Delete' || e.key.startsWith('Arrow')) {
+                    return;
+                }
+                // Отменяем ввод, если это не английская буква
+                if (!englishAlphabet.includes(e.key.toUpperCase()) && e.key.length === 1) {
+                    e.preventDefault();
+                }
+            });
+            // Изначально кнопка "Проверить" должна быть отключена
+            checkCaesarBtn.disabled = true;
+        });
+
+
+        checkCaesarBtn.addEventListener('click', () => {
+            let userAnswer = Array.from(cipherLetterBlocks).map(block => block.textContent).join('').toUpperCase(); // ИСПРАВЛЕНИЕ: Приводим ввод к верхнему регистру
+            
+            if (userAnswer === gameData.correctAnswer) {
+                gameFeedbackElement.textContent = `Верно! Слово расшифровано: ${gameData.correctAnswer}.`;
+                gameFeedbackElement.style.backgroundColor = 'rgba(46, 213, 115, 0.2)';
+                gameFeedbackElement.style.color = '#2ed573';
+                if (userAnswers[currentStep] === undefined) {
+                    userAnswers[currentStep] = true;
+                    score++;
+                }
+                nextBtn.disabled = false;
+                disableCaesarGameElements(); // Отключаем элементы после правильного ответа
+            } else {
+                gameFeedbackElement.textContent = `Неверно. Попробуйте еще раз.`;
+                gameFeedbackElement.style.backgroundColor = 'rgba(255, 71, 87, 0.2)';
+                gameFeedbackElement.style.color = '#ff4757';
+                if (userAnswers[currentStep] === undefined) {
+                    userAnswers[currentStep] = false; // Помечаем как неверный ответ
+                }
+                nextBtn.disabled = false; // Активируем кнопку "Далее" после попытки
+            }
+        });
+
+        // Обработчик кнопки "Пропустить"
+        skipCaesarBtn.addEventListener('click', () => {
+            if (userAnswers[currentStep] === undefined) {
+                userAnswers[currentStep] = false; // Помечаем как пропущенное/неверное
+            }
+            gameFeedbackElement.textContent = `Задание пропущено. Правильный ответ был: ${gameData.correctAnswer}.`;
+            gameFeedbackElement.style.backgroundColor = 'rgba(255, 178, 102, 0.2)'; // Оранжевый фон для пропущенного
+            gameFeedbackElement.style.color = '#ff9933';
+            
+            // Заполняем поля правильным ответом
+            cipherLetterBlocks.forEach((block, index) => {
+                block.textContent = gameData.correctAnswer[index];
+                block.classList.add('incorrect'); // Визуально помечаем, что пропущено/неверно
+            });
+
+            nextBtn.disabled = false; // Активируем кнопку "Далее"
+            disableCaesarGameElements(); // Отключаем все элементы после пропуска
+        });
+
+        // Проверяем, если на этот шаг уже был дан ответ/пропущен
+        if (userAnswers[currentStep] !== undefined) {
+            // Если ответ был правильным, показываем его
+            if (userAnswers[currentStep] === true) {
+                cipherLetterBlocks.forEach((block, index) => {
+                    block.textContent = gameData.correctAnswer[index];
+                    block.classList.add('correct'); 
+                });
+                gameFeedbackElement.textContent = `Верно! Слово расшифровано: ${gameData.correctAnswer}.`;
+                gameFeedbackElement.style.backgroundColor = 'rgba(46, 213, 115, 0.2)';
+                gameFeedbackElement.style.color = '#2ed573';
+            } else {
+                // Если ответ был неверным или пропущен, показываем правильный ответ и сообщение о пропуске/ошибке
+                cipherLetterBlocks.forEach((block, index) => {
+                    block.textContent = gameData.correctAnswer[index]; // Показываем правильный ответ
+                    block.classList.add('incorrect'); 
+                });
+                 gameFeedbackElement.textContent = `Задание было пропущено или неверно. Правильный ответ: ${gameData.correctAnswer}.`;
+                 gameFeedbackElement.style.backgroundColor = 'rgba(255, 178, 102, 0.2)';
+                 gameFeedbackElement.style.color = '#ff9933';
+            }
+            disableCaesarGameElements(); // Отключаем элементы
+            nextBtn.disabled = false;
+        }
     }
 
     // Обработчики кнопок навигации
@@ -861,6 +1032,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     hintBtn.addEventListener('click', openHintModal);
-    closeModalBtn.addEventListener('click', closeHintModal);
-    modalOverlay.addEventListener('click', closeHintModal);
+    closeModalBtn.addEventListener('click', closeHintModal); 
+    modalOverlay.addEventListener('click', closeHintModal); 
 });
