@@ -94,8 +94,12 @@ a {
 .hero-right {
     flex-basis: 45%;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Размещаем элементы по вертикали */
     gap: 12px;
+    position: relative; /* Важно для абсолютного позиционирования маленьких изображений */
+    height: 400px; /* Задаем высоту для hero-right, чтобы маленькие изображения могли быть внутри */
+    justify-content: center; /* Центрируем direction-item по вертикали */
+    align-items: flex-start; /* Выравниваем direction-item по левому краю */
 }
 
 .hero-main-title {
@@ -121,6 +125,7 @@ a {
     text-align: left;
 }
 
+/* Стили для блоков направлений (direction-item) */
 .direction-item {
     color: #000;
     font-weight: 800;
@@ -131,6 +136,8 @@ a {
     line-height: 1.2;
     cursor: pointer;
     transition: transform 0.3s ease;
+    z-index: 10; /* Увеличил z-index, чтобы они были поверх маленьких изображений */
+    position: relative; /* Необходимо для работы z-index */
 }
 
 /* АНИМАЦИЯ ПРИ НАВЕДЕНИИ */
@@ -153,16 +160,59 @@ a {
 }
 
 /* Цвета и позиционирование блоков */
-.direction-analytics { background-color: #C5B8FA; }
-.direction-backend { background-color: #A6E6B2; }
-.direction-ml { background-color: #A9D5EF; }
-.direction-mobile { background-color: #F2B9B9; }
-.direction-frontend { background-color: #FADCB3; }
+/* ИЗМЕНЕНИЕ: Корректировка имен классов для соответствия HTML */
+.direction-linux { background-color: #C5B8FA; }
+.direction-malware { background-color: #A6E6B2; margin-left: 35%; }
+.direction-attacks { background-color: #A9D5EF; max-width: 250px; }
+.direction-hackers { background-color: #F2B9B9; max-width: 320px; }
+.direction-ctf { background-color: #FADCB3; margin-left: 45%; }
 
-.direction-backend { margin-left: 35%; }
-.direction-ml { max-width: 250px; }
-.direction-mobile { max-width: 320px; }
-.direction-frontend { margin-left: 45%; }
+
+/* НОВЫЕ СТИЛИ: Маленькие изображения в Hero-секции */
+.hero-small-image-item {
+    position: absolute;
+    width: 60px;  /* Уменьшил размер */
+    height: 60px; /* Уменьшил размер */
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    z-index: 5; /* Ниже direction-item, но выше фона */
+    opacity: 0.8; /* Немного прозрачные */
+}
+
+.hero-small-image-item img {
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: contain;
+}
+
+/* Позиционирование каждого изображения для "случайного" эффекта, чтобы избежать перекрытия */
+.hero-small-image-item.image-1 {
+    top: 15%;
+    left: 0;
+    transform: rotate(-10deg);
+}
+
+.hero-small-image-item.image-2 {
+    top: 40%;
+    right: 5%;
+    transform: rotate(15deg);
+}
+
+.hero-small-image-item.image-3 {
+    bottom: 10%;
+    left: 20%;
+    transform: rotate(-5deg);
+}
+
+.hero-small-image-item.image-4 {
+    top: 70%;
+    right: 25%;
+    transform: rotate(8deg);
+}
 
 
 /* ======================================== */
@@ -204,12 +254,31 @@ a {
 @media (max-width: 992px) {
     .hero { padding: 100px 30px 40px; }
     .hero-layout { flex-direction: column; }
-    .hero-right { margin-top: 40px; align-items: center; }
-    .direction-item { font-size: 1.5rem; }
-    .direction-backend, .direction-frontend { margin-left: 0; }
+    .hero-left { text-align: center; } /* Центрируем текст на узких экранах */
+    .hero-right { 
+        margin-top: 40px; 
+        align-items: center; 
+        height: auto; /* Сбрасываем фиксированную высоту для адаптивности */
+    }
+    .hero-main-title { font-size: 2rem; } 
+    .hero-description { text-align: center; max-width: none; } 
+    
+    /* Для маленьких изображений на планшетах - скрываем */
+    .hero-small-image-item { display: none; } 
+
+    /* Корректируем отступы для direction-item на планшетах */
+    .direction-malware, .direction-ctf { margin-left: 0; }
 }
 
 @media (max-width: 768px) {
     .hero-main-title { font-size: 1.8rem; }
-    .direction-item { font-size: 1.2rem; padding: 8px 15px;}
+    .navbar { padding: 15px 20px; }
+    .quiz-cta-section { padding: 60px 20px; }
+    .quiz-cta-section h2 { font-size: 2rem; }
+    .quiz-cta-section p { font-size: 1.1rem; }
+    .cta-button { padding: 15px 30px; font-size: 1.1rem; }
 }
+
+/* Секция комикса (стили из comics.css, без изменений) */
+/* ... */
+
