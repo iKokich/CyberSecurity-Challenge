@@ -913,151 +913,159 @@
     cursor: not-allowed;
 }
 
+/* Стили для игры "Анализ Фишингового Email" */
+.phishing-email-game {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    align-items: center;
+}
+
+.phishing-email-game .phishing-question {
+    font-size: 1.5rem;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.email-preview {
+    width: 100%;
+    max-width: 600px;
+    background: #1e1e1e; /* Темный фон, как у терминала */
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    border: 1px solid #444;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.email-header {
+    background: #282a36; /* Фон заголовка, как в редакторе bash */
+    padding: 15px 20px;
+    border-bottom: 1px solid #444;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.email-sender, .email-subject, .email-date {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.email-sender span:first-child, .email-subject span:first-child, .email-date span:first-child {
+    color: #6272a4; /* Цвет подписей (От:, Тема:, Дата:) */
+    margin-right: 10px;
+    font-weight: 500;
+}
+
+.email-sender span:last-child, .email-subject span:last-child, .email-date span:last-child {
+    color: #f8f8f2; /* Цвет самого значения */
+    font-weight: bold;
+}
+
+.email-body-content {
+    padding: 20px;
+    flex-grow: 1;
+    color: #bd93f9; /* Цвет текста письма, как в подсказках bash */
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.email-body-content .suspicious {
+    color: #ff79c6; /* Цвет для подозрительных элементов */
+    font-weight: bold;
+}
+
+.email-body-content .important {
+    color: #ff79c6; /* Цвет для важных элементов */
+    font-weight: bold;
+}
+
+.phishing-options {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.phishing-options button {
+    padding: 12px 25px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid #6c5ce7;
+    border-radius: 25px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.phishing-options button:hover:not(:disabled) {
+    background: rgba(108, 92, 231, 0.2);
+    transform: translateY(-2px);
+}
+
+.phishing-options button.selected {
+    background: rgba(108, 92, 231, 0.4);
+    border-color: #6c5ce7;
+}
+
+.phishing-options button.correct {
+    background: rgba(46, 213, 115, 0.2);
+    border-color: #2ed573;
+    color: #2ed573;
+}
+
+.phishing-options button.incorrect {
+    background: rgba(255, 71, 87, 0.2);
+    border-color: #ff4757;
+    color: #ff4757;
+}
+
+
+.phishing-explanation {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border-left: 4px solid #6c5ce7;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #d1d8e0;
+    text-align: left; /* Выравнивание текста по левому краю */
+}
+
+.phishing-explanation h4 {
+    color: #6c5ce7;
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+}
 
 /* Адаптивность */
 @media (max-width: 768px) {
-    .navbar {
-        padding: 15px 20px;
+    .phishing-email-game {
+        gap: 20px;
     }
-
-    .hint-btn {
-        padding: 8px 15px;
-        font-size: 0.9rem;
-        position: static;
-        margin-bottom: 20px;
-        align-self: center;
-    }
-    
-    .quiz-header {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .team-selection,
-    .quiz-section,
-    .results-section {
-        padding: 100px 20px 60px;
-    }
-    
-    .team-selection h2,
-    .quiz-header h2,
-    .results-content h2 {
-        font-size: 2rem;
-    }
-    
-    .teams-container {
-        gap: 30px;
-    }
-    
-    .team-card {
-        width: 100%;
-        max-width: 300px;
-    }
-    
-    .question-container,
-    .game-container {
-        padding: 25px;
-    }
-    
-    .question-text,
-    .game-title,
-    .drag-to-input-game .drag-question-text {
+    .phishing-email-game .phishing-question {
         font-size: 1.3rem;
     }
-    
-    .drag-to-input-game .drag-to-input-image {
+    .email-preview {
         max-width: 100%;
-        max-height: 200px;
+        border-width: 1px;
     }
-
-    .drop-zones {
-        flex-direction: column;
-    }
-    
-    .match-pairs {
-        grid-template-columns: 1fr;
-    }
-    
-    .quiz-controls {
-        flex-direction: column;
-        gap: 20px;
-    }
-    
-    .score-circle {
-        width: 150px;
-        height: 150px;
-        font-size: 1.5rem;
-    }
-    
-    .score-circle span:first-child {
-        font-size: 2.5rem;
-    }
-
-    .terminal-body {
-        min-height: 150px;
-        max-height: 300px;
-        padding: 10px;
-    }
-    .terminal-output, .terminal-input, .file-editor-display .editor-info {
-        font-size: 0.85rem;
-    }
-    .prompt {
-        font-size: 0.85rem;
-    }
-    .drop-target-input {
-        font-size: 1rem;
-        min-height: 50px;
-    }
-    .drag-option-item {
-        padding: 10px 20px;
-        font-size: 1rem;
-    }
-
-    /* Адаптивность для Caesar Cipher */
-    .caesar-alphabet-table-container {
-        flex-direction: column;
-        gap: 20px;
-    }
-    .caesar-alphabet-table {
-        grid-template-columns: repeat(auto-fill, minmax(30px, 1fr)); 
-        gap: 3px;
-        padding: 8px;
-    }
-    .alphabet-letter-cell {
-        width: 30px;
-        height: 30px;
-        font-size: 0.9rem;
-    }
-    .cipher-letter-block {
-        width: 50px;
-        height: 50px;
-        font-size: 1.8rem;
-    }
-    .cipher-letter-block-container {
-        gap: 8px;
-    }
-    .caesar-controls {
-        flex-direction: column;
+    .email-header { padding: 12px 15px; }
+    .email-sender span:first-child, .email-subject span:first-child, .email-date span:first-child { margin-right: 5px; }
+    .email-body-content { font-size: 0.9rem; padding: 15px; }
+    .phishing-options {
+        margin-top: 20px;
         gap: 10px;
+        flex-direction: column; /* Кнопки друг под другом */
+        align-items: center; /* Центрирование кнопок */
     }
-}
-
-@media (max-width: 480px) {
-    .caesar-alphabet-table {
-        grid-template-columns: repeat(auto-fill, minmax(25px, 1fr));
-    }
-    .alphabet-letter-cell {
-        width: 25px;
-        height: 25px;
-        font-size: 0.8rem;
-    }
-    .alphabet-letter-cell .number {
-        font-size: 0.6em;
-    }
-    .cipher-letter-block {
-        width: 45px;
-        height: 45px;
-        font-size: 1.5rem;
-    }
+    .phishing-options button { font-size: 1rem; padding: 10px 20px; width: 90%; }
+    .phishing-explanation { margin-top: 15px; font-size: 1rem; }
+    .phishing-explanation h4 { font-size: 1.2rem; }
 }

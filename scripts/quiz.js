@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
             ciphertext: "UNPXRE", // Зашифрованное слово
             key: 13, // Ключ для расшифровки (сдвиг назад)
             correctAnswer: "HACKER", // Правильный ответ
-            hint: "БЫЛ КОГДА ТО ТАКОЙ ЦАРЬ И ЕГО ЗВАЛИ ЦЕЗАРЬ. Шифр Цезаря использует сдвиг букв по алфавиту." // Подсказка изменена для контекста
+            hint: "БЫЛ КОГДА ТО ТАКОЙ ЦАРЬ И ЕГО ЗВАЛИ ЦЕЗАРЬ. Шифр Цезаря использует сдвиг букв по алфавиту." 
         },
         {
             type: 'game',
@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             type: 'game',
             gameType: 'dragAndDrop',
-            title: "Распределите действия по командам",
+            title: "Распределите инструменты по категориям",
             description: "Перетащите элементы в соответствующие зоны",
             items: [
                 { id: 1, text: "Wireshark", correctCategory: "analysis" },
@@ -237,6 +237,45 @@ document.addEventListener('DOMContentLoaded', function() {
                 { term: "VPN", definition: "Защищенное соединение между сетями" }
             ],
             hint: "HTTPS - это безопасная версия HTTP. VPN создает 'защищенное соединение'."
+        },
+        {
+            type: 'question',
+            question: "Какой основной фокус Blue Team в кибербезопасности?",
+            options: [
+                "Оборонительные меры и защита",
+                "Наступательные операции",
+                "Разведка угроз",
+                "Разработка уязвимостей"
+            ],
+            correct: 0,
+            hint: "В отличие от атакующей Red Team, Blue Team сосредоточена на оборонительных мерах."
+        },
+        // Новый шаг для Blue Team: Анализ фишингового email
+        {
+            type: 'game',
+            gameType: 'phishingAnalysis',
+            title: "Анализ фишингового письма",
+            email: {
+                sender: "security-alert@microsoft-support.com",
+                subject: "Срочное уведомление безопасности учетной записи",
+                date: "2024-09-25",
+                body: `
+                Уважаемый пользователь,
+                
+                Мы обнаружили подозрительную активность на вашей учетной записи Microsoft. Для ее защиты, пожалуйста, немедленно подтвердите свою личность, перейдя по следующей ссылке:
+                
+                <a href="http://m1cr0s0ft-secure-login.xyz/verify">Нажмите здесь для подтверждения</a>
+                
+                Если вы не выполните данное действие в течение 24 часов, ваша учетная запись будет заблокирована.
+                
+                С уважением,<br>
+                Служба поддержки Microsoft
+                `
+            },
+            question: "Является ли это письмо фишинговым?",
+            options: ["Да, это фишинг", "Нет, это не фишинг"],
+            correctAnswerIndex: 0, // "Да, это фишинг"
+            explanation: "Это письмо является фишинговым по нескольким причинам:<br>- **Подозрительный отправитель:** Адрес 'microsoft-support@microsoft-support.com' выглядит как попытка имитировать официальный, но имеет мелкие отличия (например, 'microsoft-support' вместо 'microsoft.com').<br>- **Срочность и угроза:** Письмо создает ощущение срочности ('немедленно', 'в течение 24 часов', 'учетная запись будет заблокирована'), чтобы заставить пользователя действовать необдуманно.<br>- **Подозрительная ссылка:** Ссылка 'm1cr0s0ft-secure-login.xyz' явно не относится к официальному домену Microsoft (.com).<br>- **Грамматические и стилистические ошибки:** Возможны мелкие ошибки, хотя в данном примере они не столь явны, но часто встречаются в фишинговых письмах.<br>- **Запрос конфиденциальной информации:** Косвенно, переход по ссылке может привести к краже учетных данных."
         },
         {
             type: 'question',
@@ -361,6 +400,8 @@ document.addEventListener('DOMContentLoaded', function() {
             loadDragToInputGame(gameData);
         } else if (gameData.gameType === 'caesarCipher') { 
             loadCaesarCipherGame(gameData);
+        } else if (gameData.gameType === 'phishingAnalysis') { // <-- НОВЫЙ ТИП ИГРЫ
+            loadPhishingAnalysisGame(gameData);
         }
         
         // Кнопка "Далее" заблокирована, пока игра не завершена успешно/попытка не сделана
@@ -898,7 +939,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
         checkCaesarBtn.addEventListener('click', () => {
-            let userAnswer = Array.from(cipherLetterBlocks).map(block => block.textContent).join('').toUpperCase(); // ИСПРАВЛЕНИЕ: Приводим ввод к верхнему регистру
+            let userAnswer = Array.from(cipherLetterBlocks).map(block => block.textContent).join('').toUpperCase(); 
             
             if (userAnswer === gameData.correctAnswer) {
                 gameFeedbackElement.textContent = `Верно! Слово расшифровано: ${gameData.correctAnswer}.`;
@@ -954,7 +995,7 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 // Если ответ был неверным или пропущен, показываем правильный ответ и сообщение о пропуске/ошибке
                 cipherLetterBlocks.forEach((block, index) => {
-                    block.textContent = gameData.correctAnswer[index]; // Показываем правильный ответ
+                    block.textContent = gameData.correctAnswer[index]; 
                     block.classList.add('incorrect'); 
                 });
                  gameFeedbackElement.textContent = `Задание было пропущено или неверно. Правильный ответ: ${gameData.correctAnswer}.`;
@@ -965,6 +1006,87 @@ document.addEventListener('DOMContentLoaded', function() {
             nextBtn.disabled = false;
         }
     }
+
+    // --- Загрузка игры "Анализ Фишингового Email" ---
+    function loadPhishingAnalysisGame(gameData) {
+        const phishingHTML = `
+            <div class="phishing-email-game">
+                <p class="phishing-question">${gameData.question}</p>
+                <div class="email-preview">
+                    <div class="email-header">
+                        <div class="email-sender">
+                            <span>От:</span>
+                            <span>${gameData.email.sender}</span>
+                        </div>
+                        <div class="email-subject">
+                            <span>Тема:</span>
+                            <span>${gameData.email.subject}</span>
+                        </div>
+                        <div class="email-date">
+                            <span>Дата:</span>
+                            <span>${gameData.email.date}</span>
+                        </div>
+                    </div>
+                    <div class="email-body-content">
+                        ${gameData.email.body}
+                    </div>
+                </div>
+                <div class="phishing-options">
+                    ${gameData.options.map((option, index) => `
+                        <button class="quiz-btn" data-index="${index}">${option}</button>
+                    `).join('')}
+                </div>
+                <div class="phishing-explanation" style="display: none;">
+                    <!-- Объяснение будет вставлено сюда -->
+                </div>
+            </div>
+        `;
+        gameContentElement.innerHTML = phishingHTML;
+
+        const phishingOptionsButtons = gameContentElement.querySelectorAll('.phishing-options button');
+        const phishingExplanation = gameContentElement.querySelector('.phishing-explanation');
+
+        phishingOptionsButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const selectedIndex = parseInt(button.getAttribute('data-index'));
+                
+                // Сначала убираем подсветку со всех, если уже была
+                phishingOptionsButtons.forEach(btn => {
+                    btn.classList.remove('selected', 'correct', 'incorrect');
+                    btn.disabled = true; // Блокируем кнопки после выбора
+                });
+
+                // Применяем выбранный стиль
+                if (selectedIndex === gameData.correctAnswerIndex) {
+                    button.classList.add('correct');
+                    if (userAnswers[currentStep] === undefined) {
+                        userAnswers[currentStep] = true;
+                        score++;
+                    }
+                    gameFeedbackElement.textContent = 'Правильно!';
+                    gameFeedbackElement.style.backgroundColor = 'rgba(46, 213, 115, 0.2)';
+                    gameFeedbackElement.style.color = '#2ed573';
+                } else {
+                    button.classList.add('incorrect');
+                    if (userAnswers[currentStep] === undefined) {
+                        userAnswers[currentStep] = false;
+                    }
+                    gameFeedbackElement.textContent = 'Неверно.';
+                    gameFeedbackElement.style.backgroundColor = 'rgba(255, 71, 87, 0.2)';
+                    gameFeedbackElement.style.color = '#ff4757';
+                }
+
+                // Показываем объяснение
+                phishingExplanation.innerHTML = `<h4>${gameData.question}</h4>${gameData.explanation}`;
+                phishingExplanation.style.display = 'block';
+
+                nextBtn.disabled = false; // Активируем кнопку "Далее"
+            });
+        });
+        // Блокируем кнопку "Далее", пока ответ не выбран
+        nextBtn.disabled = true;
+    }
+
 
     // Обработчики кнопок навигации
     prevBtn.addEventListener('click', () => {
@@ -1032,6 +1154,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     hintBtn.addEventListener('click', openHintModal);
-    closeModalBtn.addEventListener('click', closeHintModal); 
-    modalOverlay.addEventListener('click', closeHintModal); 
+    closeModalBtn.addEventListener('click', closeHintModal); // Исправлено
+    modalOverlay.addEventListener('click', closeHintModal); // Исправлено
 });
