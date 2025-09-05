@@ -55,7 +55,6 @@
     cursor: pointer;
     transition: all 0.3s ease;
     border: 3px solid transparent;
-    /* Убедимся, что a.team-card тоже выглядит как div */
     display: flex; 
     flex-direction: column;
     align-items: center;
@@ -77,15 +76,13 @@
     box-shadow: 0 15px 35px rgba(55, 66, 250, 0.2);
 }
 
-/* Стили для новой карточки мини-игры */
 .minigame-team:hover {
-    border-color: #ffcc00; /* Желтый цвет для мини-игры */
+    border-color: #ffcc00;
     box-shadow: 0 15px 35px rgba(255, 204, 0, 0.2);
 }
 .minigame-team .team-icon {
-    color: #ffcc00; /* Желтый цвет иконки */
+    color: #ffcc00;
 }
-
 
 .team-icon {
     font-size: 3.5rem;
@@ -103,7 +100,7 @@
 .team-card h3 {
     font-size: 1.8rem;
     margin-bottom: 15px;
-    color: #fff; /* Цвет заголовка, если он не наследуется */
+    color: #fff;
 }
 
 .team-card p {
@@ -128,10 +125,9 @@
 .quiz-header {
     text-align: center;
     margin-bottom: 50px;
-    position: relative; /* Необходимо для позиционирования кнопки подсказки */
+    position: relative;
 }
 
-/* Стили для кнопки подсказки */
 .hint-btn {
     position: absolute;
     top: 0;
@@ -140,14 +136,14 @@
     border: 2px solid #6c5ce7;
     color: #6c5ce7;
     padding: 10px 20px;
-    border-radius: 30px; /* Круглые края как у других кнопок */
+    border-radius: 30px;
     cursor: pointer;
-    font-size: 1.1rem; /* Размер шрифта как у других кнопок */
+    font-size: 1.1rem;
     font-weight: 600;
     transition: all 0.3s ease;
-    display: none; /* Скрыта по умолчанию */
-    align-items: center; /* Для центрирования иконки и текста */
-    gap: 10px; /* Отступ между иконкой и текстом */
+    display: none;
+    align-items: center;
+    gap: 10px;
 }
 
 .hint-btn:hover:not(:disabled) {
@@ -974,15 +970,23 @@
     line-height: 1.7;
 }
 
-.email-body-content .suspicious {
-    color: #ff79c6; /* Цвет для подозрительных элементов */
-    font-weight: bold;
+.email-attachment {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background 0.3s;
+    display: inline-flex; /* Для выравнивания иконки и текста */
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #6c5ce7;
+    color: #8be9fd; /* Цвет как у ссылок */
 }
 
-.email-body-content .important {
-    color: #ff79c6; /* Цвет для важных элементов */
-    font-weight: bold;
+.email-attachment:hover {
+    background: rgba(108, 92, 231, 0.2);
 }
+
 
 .phishing-options {
     display: flex;
@@ -1004,7 +1008,7 @@
 }
 
 .phishing-options button:hover:not(:disabled) {
-    background: rgba(108, 92, 231, 0.2);
+    background: rgba(108, 92, 231, 0.4);
     transform: translateY(-2px);
 }
 
@@ -1025,7 +1029,6 @@
     color: #ff4757;
 }
 
-
 .phishing-explanation {
     margin-top: 20px;
     padding: 15px;
@@ -1036,6 +1039,7 @@
     line-height: 1.7;
     color: #d1d8e0;
     text-align: left; /* Выравнивание текста по левому краю */
+    display: none; /* Скрыто по умолчанию */
 }
 
 .phishing-explanation h4 {
@@ -1044,7 +1048,23 @@
     font-size: 1.3rem;
 }
 
-/* Адаптивность */
+/* Стили для модального окна с файлом */
+#file-viewer-modal {
+    max-width: 600px;
+}
+#file-content-display {
+    background: #000; /* Черный фон, как у терминала */
+    color: #ff4757; /* Красный цвет, имитирующий вирус */
+    padding: 20px;
+    border-radius: 8px;
+    font-family: 'Consolas', 'Monaco', 'Lucida Console', monospace;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+/* Адаптивность для Phishing Email */
 @media (max-width: 768px) {
     .phishing-email-game {
         gap: 20px;

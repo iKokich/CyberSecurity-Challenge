@@ -3,140 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Younger&Cyber</title>
+    <title>Younger&Cyber - Квиз</title>
     <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/comics.css">
+    <link rel="stylesheet" href="styles/quiz.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Навигационное меню -->
     <nav class="navbar">
-        <a href="#" class="logo">Younger<span>&</span>Cyber</a>
+        <a href="index.html" class="logo">Younger<span>&</span>Cyber</a>
     </nav>
 
-    <!-- HERO-СЕКЦИЯ -->
-    <section class="hero">
-        <div class="hero-content">
-            <div class="hero-layout">
-                <!-- Левая колонка -->
-                <div class="hero-left">
-                    <h1 class="hero-main-title">
-                        Участвуй в событиях<br><span>CyberChallenge</span>
-                    </h1>
-                    
-                    <p class="hero-description">
-                        Решай задачи по кибербезопасности в формате квиза . 
-                        Данная платформа предназначена для студентов 1-го курсы и школьников.CyberChallenge создан чтобы заинтерисовать молодое поколение кибербезопасностью.
-                    </p>
-                    
-                    <p class="hero-description">
-                        Данна платформа была сделана как демонстрация.
-                    </p>
+    <!-- Выбор команды -->
+    <section class="team-selection">
+        <div class="container">
+            <h2>Выберите свою команду</h2>
+            <p>Присоединитесь к Red Team или Blue Team и начните свое путешествие</p>
+            
+            <div class="teams-container">
+                <div class="team-card red-team" data-team="red">
+                    <div class="team-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <h3>Red Team</h3>
+                    <p>Passion, love, anger, danger, warning</p>
                 </div>
                 
-                <!-- Правая колонка -->
-                <div class="hero-right">
-                    <!-- Возвращены оригинальные блоки direction-item -->
-                    <div class="direction-item direction-linux">LINUX</div>
-                    <div class="direction-item direction-malware">MALWARE</div>
-                    <div class="direction-item direction-attacks">ATTACKS</div>
-                    <div class="direction-item direction-hackers">HACKERS</div>
-                    <div class="direction-item direction-ctf">CTF</div>
-
-                    <!-- НОВЫЕ ЭЛЕМЕНТЫ: 4 маленьких изображения для декора -->
-                    <div class="hero-small-image-item image-1">
-                        <img src="assets/img/flag.png" alt="Small Cyber Icon 1"> <!-- Замените на ваши пути -->
+                <div class="team-card blue-team" data-team="blue">
+                    <div class="team-icon">
+                        <i class="fas fa-tint"></i>
                     </div>
-                    <div class="hero-small-image-item image-2">
-                        <img src="assets/img/folder.png" alt="Small Cyber Icon 2">
-                    </div>
-                    <div class="hero-small-image-item image-3">
-                        <img src="assets/img/star.png" alt="Small Cyber Icon 3">
-                    </div>
-                    <div class="hero-small-image-item image-4">
-                        <img src="assets/img/light.png" alt="Small Cyber Icon 4">
-                    </div>
+                    <h3>Blue Team</h3>
+                    <p>Calm, trust, loyalty, wisdom, confidence</p>
                 </div>
+
+                <!-- НОВАЯ КАРТОЧКА: Мини-игра -->
+                <a href="game.html" class="team-card minigame-team">
+                    <div class="team-icon">
+                        <i class="fas fa-gamepad"></i> <!-- Иконка для мини-игры -->
+                    </div>
+                    <h3>Мини-игра</h3>
+                    <p>Погрузитесь в интерактивную историю</p>
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- Секция комикса -->
-    <section class="comic-section">
-        <div class="comic-container">
-            <div class="comic-content">
-                <h2>НАШЕ КИБЕР-ПРИКЛЮЧЕНИЕ</h2>
-                <p>Откройте для себя увлекательную историю о том, студент Вася ​​стал пионером в цифровом пространстве. Наш путь — это путь инноваций, испытаний и триумфов.</p>
-                <p>В этом интерактивном комиксе мы предлагаем вам исследовать ключевые моменты, сформировавшие нашу идентичность и миссию в киберпространстве.</p>
-                <p>Каждая глава раскрывает суть нашей философии и ценностей, которые ведут нас вперёд в этом постоянно меняющемся цифровом мире.</p>
+    <!-- Секция квиза (изначально скрыта) -->
+    <section class="quiz-section" id="quiz-section">
+        <div class="container">
+            <div class="quiz-header">
+                <!-- Кнопка "Подсказка" здесь, внутри quiz-header -->
+                <button id="hint-btn" class="quiz-btn hint-btn">
+                    <i class="fas fa-lightbulb"></i> Подсказка
+                </button>
+                <h2>Квиз <span id="team-name"></span> команды</h2>
+                <div class="quiz-progress">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
             
-            <div class="comic-slider">
-                <div class="slider-header">
-                    <h2>КИБЕР ХРОНИКИ</h2>
-                    <p>Пролистайте нашу интерактивную историю</p>
-                </div>
+            <div class="question-container">
+                <h3 class="question-text" id="question-text"></h3>
                 
-                <div class="comic-strip">
-                    <div class="comic-panel active">
-                        <div class="comic-character">
-                            <img src="assets/img/cat_saying.png" alt="Cyber Character">
-                        </div>
-                        <div class="comic-text">
-                            <h3>Пушистик</h3>
-                            <p>"Учись с Пушистиком — исследователем, который не боится хакерских уловок и поможет выйти из цифровой передряги. Пушистик знает ответы и любит учить в игровой форме."</p>
-                        </div>
-                    </div>
-                    
-                    <div class="comic-panel">
-                        <div class="comic-character">
-                            <img src="assets/img/boy.png" alt="Cyber Character">
-                        </div>
-                        <div class="comic-text">
-                            <h3>Вася</h3>
-                            <p>"Помоги Васе пройти пусть становления Безопасником. Решай задачки и становись грамотным жителем Интернета."</p>
-                        </div>
-                    </div>
-                    
-                    <div class="comic-panel">
-                        <div class="comic-character">
-                            <img src="assets/img/chatbot.svg" alt="Cyber Character">
-                        </div>
-                        <div class="comic-text">
-                            <h3>Злая машина</h3>
-                            <p>"Создала трудности в становлении Васи Безопасником. Победи её коварные алгоритмы и освободи Интернет от её оков."</p>
-                        </div>
-                    </div>
+                <div class="options-container" id="options-container">
+                    <!-- Варианты ответов будут добавляться через JavaScript -->
                 </div>
-                
-                <div class="slider-controls">
-                    <button class="slider-btn" id="prev-btn" disabled>
-                        <i class="fas fa-arrow-left"></i> Previous
-                    </button>
-                    <button class="slider-btn" id="next-btn">
-                        Next <i class="fas fa-arrow-right"></i>
-                    </button>
+            </div>
+            
+            <!-- Контейнер для игр (изначально скрыт) -->
+            <div class="game-container" id="game-container" style="display: none;">
+                <h3 class="game-title" id="game-title"></h3>
+                <div class="game-content" id="game-content">
+                    <!-- Содержимое игр будет добавляться через JavaScript -->
                 </div>
-                
-                <div class="slider-dots">
-                    <div class="dot active" data-index="0"></div>
-                    <div class="dot" data-index="1"></div>
-                    <div class="dot" data-index="2"></div>
-                </div>
+                <div class="game-feedback" id="game-feedback"></div>
+            </div>
+            
+            <div class="quiz-controls">
+                <button id="prev-btn" class="quiz-btn" disabled>
+                    <i class="fas fa-arrow-left"></i> Назад
+                </button>
+                <span class="question-counter" id="question-counter">Вопрос 1 из 5</span>
+                <button id="next-btn" class="quiz-btn">
+                    Далее <i class="fas fa-arrow-right"></i>
+                </button>
             </div>
         </div>
     </section>
 
-    <!-- Секция с кнопкой перехода к квизу -->
-    <section class="quiz-cta-section">
-        <div class="quiz-cta-container">
-            <h2>Готовы начать путешествие?</h2>
-            <p>Присоединитесь к одной из команд и проверьте свои знания в области кибербезопасности</p>
-            <a href="quiz.html" class="cta-button">Начать путешествие</a>
+    <!-- Результаты квиза (изначально скрыты) -->
+    <section class="results-section" id="results-section">
+        <div class="container">
+            <div class="results-content">
+                <h2>Результаты квиза</h2>
+                <div class="score-container">
+                    <div class="score-circle">
+                        <span id="score-value">0</span>
+                        <span>из</span>
+                        <span id="total-questions">5</span>
+                    </div>
+                    <p id="score-message"></p>
+                </div>
+                <button id="restart-btn" class="cta-button">Пройти еще раз</button>
+                <a href="index.html" class="back-link">Вернуться на главную</a>
+            </div>
         </div>
     </section>
 
-    <script src="scripts/app.js"></script>
+    <!-- Модальное окно для подсказки -->
+    <div id="modal-overlay" class="modal-overlay"></div>
+    <div id="hint-modal" class="modal">
+        <div class="modal-header">
+            <h3>Подсказка</h3>
+            <span class="close-btn">&times;</span>
+        </div>
+        <div class="modal-content">
+            <p id="hint-text"></p>
+        </div>
+    </div>
+
+    <!-- НОВОЕ МОДАЛЬНОЕ ОКНО: Для просмотра файла -->
+    <div id="file-viewer-modal-overlay" class="modal-overlay"></div>
+    <div id="file-viewer-modal" class="modal">
+        <div class="modal-header">
+            <h3>Просмотр файла: Отчет.docx</h3>
+            <span class="close-btn">&times;</span>
+        </div>
+        <div class="modal-content">
+            <pre id="file-content-display"></pre>
+        </div>
+    </div>
+
+    <script src="scripts/quiz.js"></script>
 </body>
 </html>

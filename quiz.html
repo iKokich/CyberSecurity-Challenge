@@ -1,4 +1,4 @@
-ъ<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -121,6 +121,18 @@
         </div>
         <div class="modal-content">
             <p id="hint-text"></p>
+        </div>
+    </div>
+
+    <!-- НОВОЕ МОДАЛЬНОЕ ОКНО: Для просмотра файла -->
+    <div id="file-viewer-modal-overlay" class="modal-overlay"></div>
+    <div id="file-viewer-modal" class="modal">
+        <div class="modal-header">
+            <h3>Просмотр файла: Отчет.docx</h3>
+            <span class="close-btn">&times;</span>
+        </div>
+        <div class="modal-content">
+            <pre id="file-content-display"></pre>
         </div>
     </div>
 
