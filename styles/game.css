@@ -154,6 +154,17 @@ body {
 .choice-btn:active { transform:translateY(1px); }
 
 .hidden { display:none; }
+/*Ошибка ввода пароля для модального окна*/
+#modal-error {
+  font-size: 14px;
+  color: #d00;
+  margin-top: -4px;
+  margin-bottom: 6px;
+}
+.hidden {
+  display: none;
+}
+
 
 /* Модальное окно пароля - стилизуем под модальные окна сайта */
 #password-modal {
@@ -241,7 +252,9 @@ body {
     #choice-box { padding: 12px; gap: 12px; }
     .modal-content { padding: 25px; gap: 12px; }
     .modal-buttons button { padding: 8px 15px; font-size: 1rem; }
+
 }
+
 
 @media (max-width: 768px) {
     .game-wrapper {

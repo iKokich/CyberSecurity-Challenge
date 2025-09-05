@@ -20,7 +20,7 @@
     <div id="game-window">
 
       <!-- Добавляем классы quiz-btn и hint-btn-game для стилизации -->
-      <button id="hint-btn" class="quiz-btn hint-btn-game">💡 Подсказка</button>
+      <button id="hint-btn" class="quiz-btn-game">💡 Подсказка</button>
       <div id="overlay"></div>
 
       <div id="cat-container">
@@ -38,6 +38,7 @@
         <div class="modal-content">
           <p id="modal-text">Введите пароль для сети</p>
           <input type="password" id="modal-input" placeholder="Пароль" />
+           <div id="modal-error" class="hidden"></div>
           <div class="modal-buttons">
             <button id="modal-ok" class="cta-button">OK</button>
             <button id="modal-cancel" class="quiz-btn">Отмена</button>
