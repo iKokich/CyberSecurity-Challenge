@@ -55,7 +55,6 @@ a {
     align-items: center;
     padding: 120px 50px 50px;
     position: relative;
-    /* Убедитесь, что у вас есть фоновое изображение по этому пути */
     background: url('../assets/your-background-image.jpg') center/cover no-repeat;
     background-color: #1a1a2e; /* Цвет фона на случай, если картинка не загрузится */
 }
@@ -94,12 +93,12 @@ a {
 .hero-right {
     flex-basis: 45%;
     display: flex;
-    flex-direction: column; /* Размещаем элементы по вертикали */
+    flex-direction: column;
     gap: 12px;
-    position: relative; /* Важно для абсолютного позиционирования маленьких изображений */
-    height: 400px; /* Задаем высоту для hero-right, чтобы маленькие изображения могли быть внутри */
-    justify-content: center; /* Центрируем direction-item по вертикали */
-    align-items: flex-start; /* Выравниваем direction-item по левому краю */
+    position: relative;
+    height: 400px;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 .hero-main-title {
@@ -114,6 +113,16 @@ a {
     font-weight: 400;
 }
 
+/* ИЗМЕНЕНИЕ: Стили для новой карточки с описанием */
+.hero-description-card {
+    background: rgba(255, 255, 255, 0.05); /* Фон как у карточек в квизе */
+    border-radius: 20px;
+    padding: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    margin-top: 30px; /* Отступ от заголовка */
+}
+
 .hero-description {
     font-size: 1rem;
     line-height: 1.7;
@@ -125,7 +134,11 @@ a {
     text-align: left;
 }
 
-/* Стили для блоков направлений (direction-item) */
+/* Убираем последний отступ у параграфа в карточке */
+.hero-description-card p:last-child {
+    margin-bottom: 0;
+}
+
 .direction-item {
     color: #000;
     font-weight: 800;
@@ -136,11 +149,10 @@ a {
     line-height: 1.2;
     cursor: pointer;
     transition: transform 0.3s ease;
-    z-index: 10; /* Увеличил z-index, чтобы они были поверх маленьких изображений */
-    position: relative; /* Необходимо для работы z-index */
+    z-index: 10;
+    position: relative;
 }
 
-/* АНИМАЦИЯ ПРИ НАВЕДЕНИИ */
 .direction-item:hover {
     animation: shake-and-tilt 0.6s infinite;
 }
@@ -159,7 +171,6 @@ a {
     100% { transform: translate(1px, -2px) rotate(-2deg); }
 }
 
-/* Цвета и позиционирование блоков */
 .direction-linux { background-color: #C5B8FA; }
 .direction-malware { background-color: #A6E6B2; margin-left: 35%; }
 .direction-attacks { background-color: #A9D5EF; max-width: 250px; }
@@ -170,16 +181,16 @@ a {
 /* НОВЫЕ СТИЛИ: Маленькие изображения в Hero-секции */
 .hero-small-image-item {
     position: absolute;
-    width: 60px;  /* Уменьшил размер */
-    height: 60px; /* Уменьшил размер */
+    width: 60px;
+    height: 60px;
     background-color: rgba(255, 255, 255, 0.05);
     border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-    z-index: 5; /* Ниже direction-item, но выше фона */
-    opacity: 0.8; /* Немного прозрачные */
+    z-index: 5;
+    opacity: 0.8;
 }
 
 .hero-small-image-item img {
@@ -188,11 +199,9 @@ a {
     object-fit: contain;
 }
 
-/* Позиционирование каждого изображения для "случайного" эффекта, чтобы избежать перекрытия */
-/* ИЗМЕНЕНИЕ: Отодвигаем картинку от блока LINUX */
 .hero-small-image-item.image-1 {
     top: 5%;
-    left: -10%; /* Смещаем влево за пределы контейнера */
+    left: -10%;
     transform: rotate(-15deg);
 }
 
@@ -252,7 +261,7 @@ a {
 
 .footer {
     padding: 40px 50px;
-    background: #0c0c1d; /* Более темный фон, как у секции комикса */
+    background: #0c0c1d;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -262,7 +271,7 @@ a {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap; /* Для адаптивности */
+    flex-wrap: wrap;
     gap: 20px;
 }
 
@@ -286,13 +295,13 @@ a {
 
 .footer-social a {
     color: #6c5ce7;
-    font-size: 2.2rem; /* Увеличили размер иконки */
+    font-size: 2.2rem;
     transition: all 0.3s ease;
 }
 
 .footer-social a:hover {
     color: #fff;
-    transform: scale(1.1) rotate(15deg); /* Добавляем вращение при наведении */
+    transform: scale(1.1) rotate(15deg);
 }
 
 
@@ -300,36 +309,76 @@ a {
 /*                АДАПТИВНОСТЬ              */
 /* ======================================== */
 
-@media (max-width: 992px) {
-    .hero { padding: 100px 30px 40px; }
-    .hero-layout { flex-direction: column; }
-    .hero-left { text-align: center; } /* Центрируем текст на узких экранах */
-    .hero-right { 
-        margin-top: 40px; 
-        align-items: center; 
-        height: auto; /* Сбрасываем фиксированную высоту для адаптивности */
-    }
-    .hero-main-title { font-size: 2rem; } 
-    .hero-description { text-align: center; max-width: none; } 
-    
-    /* Для маленьких изображений на планшетах - скрываем */
-    .hero-small-image-item { display: none; } 
-
-    /* Корректируем отступы для direction-item на планшетах */
-    .direction-malware, .direction-ctf { margin-left: 0; }
-}
-
 @media (max-width: 768px) {
-    .hero-main-title { font-size: 1.8rem; }
-    .navbar { padding: 15px 20px; }
-    .quiz-cta-section { padding: 60px 20px; }
-    .quiz-cta-section h2 { font-size: 2rem; }
-    .quiz-cta-section p { font-size: 1.1rem; }
-    .cta-button { padding: 15px 30px; font-size: 1.1rem; }
+    .navbar {
+        padding: 15px 20px;
+        justify-content: center;
+    }
+
+    .hero {
+        padding: 100px 20px 50px;
+        min-height: auto;
+    }
+    
+    .hero-layout {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-left {
+        text-align: center;
+    }
+
+    .hero-right {
+        margin-top: 50px;
+        height: auto;
+        align-items: center;
+    }
+
+    .hero-main-title {
+        font-size: 1.8rem;
+    }
+    
+    .hero-description {
+        font-size: 0.9rem;
+    }
+
+    .hero-description-card {
+        padding: 20px;
+        margin-top: 20px;
+    }
+
+    .direction-item {
+        font-size: 1.2rem;
+        padding: 8px 15px;
+        margin-left: 0 !important;
+    }
+    
+    .hero-small-image-item {
+        display: none;
+    }
+
+    .quiz-cta-section {
+        padding: 60px 20px;
+    }
+    .quiz-cta-section h2 {
+        font-size: 2rem;
+    }
+    .quiz-cta-section p {
+        font-size: 1.1rem;
+    }
+    .cta-button {
+        padding: 15px 30px;
+        font-size: 1.1rem;
+    }
+
+    .footer {
+        padding: 30px 20px;
+    }
     .footer-container {
-        flex-direction: column; /* Элементы друг под другом */
-        justify-content: center; /* Центрируем */
-        gap: 25px; /* Увеличиваем отступ */
+        flex-direction: column;
+        justify-content: center;
+        gap: 25px;
     }
     .footer-authors {
         text-align: center;

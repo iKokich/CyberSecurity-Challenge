@@ -43,15 +43,15 @@ body {
   z-index:18;
 }
 
-/* Кнопка подсказки (наследует стили quiz-btn) */
+/* Кнопка подсказки (наследует стили quiz-btn, но переопределяется здесь) */
 #hint-btn.quiz-btn-game {
   position:absolute; top:15px; right:15px;
   z-index:20;
   background: #ffcc00; /* Цвет как у карточки мини-игры */
   color: #222; /* Темный текст на желтом фоне */
   border:none;
-  padding:10px 20px; /* Отступы как у кнопок сайта */
-  border-radius:30px; /* Закругленные края */
+  padding:10px 20px;
+  border-radius:30px;
   cursor:pointer; transition:background .3s;
   font-size:1.1rem;
   font-weight:600;
@@ -59,9 +59,12 @@ body {
   align-items:center;
   gap:10px;
   box-shadow: 0 3px 10px rgba(255, 204, 0, 0.3);
+  width: fit-content; /* ИЗМЕНЕНИЕ: Жестко задаем ширину по содержимому */
+  box-sizing: content-box; /* ИЗМЕНЕНИЕ: Чтобы padding не увеличивал общую ширину */
+  white-space: nowrap; /* ИЗМЕНЕНИЕ: Предотвращает перенос текста */
 }
 #hint-btn.quiz-btn-game:hover { 
-    background:#ffdb4d; /* Чуть светлее при наведении */
+    background:#ffdb4d; 
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(255, 204, 0, 0.4);
 }
@@ -83,8 +86,8 @@ body {
   box-shadow:0 0 20px rgba(0,0,0,0.35);
 }
 #cat-speech {
-  background:#fff; /* ИЗМЕНЕНИЕ: Белый фон */
-  color:#222; /* ИЗМЕНЕНИЕ: Темный текст для читаемости */
+  background:#fff;
+  color:#222;
   padding:15px 20px; border-radius:15px;
   max-width:400px; font-size:1.1rem; line-height:1.5;
   position:relative;
@@ -95,14 +98,14 @@ body {
   content:""; position:absolute;
   left:-15px; bottom:25px;
   border:12px solid transparent;
-  border-right-color:#fff; /* ИЗМЕНЕНИЕ: Цвет стрелки соответствует белому фону */
+  border-right-color:#fff;
 }
 
-/* Кнопка "Далее" (наследует стили quiz-btn) */
+/* Кнопка "Далее" (наследует стили quiz-btn, но переопределяется здесь) */
 #next-btn.next-btn-game {
   position:absolute; bottom:15px; right:15px;
   z-index:15;
-  background:#6c5ce7; /* Основной цвет кнопок сайта */
+  background:#6c5ce7;
   color:white;
   border:none;
   padding:15px 30px;
@@ -113,6 +116,9 @@ body {
   display:flex;
   align-items:center;
   gap:10px;
+  width: fit-content; /* ИЗМЕНЕНИЕ: Жестко задаем ширину по содержимому */
+  box-sizing: content-box; /* ИЗМЕНЕНИЕ: Чтобы padding не увеличивал общую ширину */
+  white-space: nowrap; /* ИЗМЕНЕНИЕ: Предотвращает перенос текста */
 }
 #next-btn.next-btn-game:hover { 
     background:#5d4ae0; 
@@ -128,9 +134,9 @@ body {
 
 #choice-box {
   position:absolute; left:0; bottom:-150px;
-  width:100%; background:rgba(0,0,0,0.7); /* Темный полупрозрачный фон */
+  width:100%; background:rgba(0,0,0,0.7);
   padding:20px; display:flex;
-  justify-content:center; gap:15px; /* Увеличенный отступ */
+  justify-content:center; gap:15px;
   transition:bottom .45s ease;
   z-index:20;
   box-shadow: 0 -5px 20px rgba(0,0,0,0.3);
@@ -138,13 +144,14 @@ body {
 #choice-box.show { bottom:0; }
 
 .choice-btn {
-  background:#6c5ce7; /* Основной цвет кнопок сайта */
+  background:#6c5ce7;
   color:white;
-  border:none; padding:12px 25px; /* Отступы как у кнопок сайта */
-  font-size:1.1rem; border-radius:30px; /* Закругление как у кнопок сайта */
+  border:none; padding:12px 25px;
+  font-size:1.1rem; border-radius:30px;
   cursor:pointer;
   transition:background .25s, transform .05s;
   font-weight:600;
+  white-space: nowrap; /* ИЗМЕНЕНИЕ: Предотвращает перенос текста */
 }
 .choice-btn:hover { 
     background:#5d4ae0; 
@@ -154,25 +161,14 @@ body {
 .choice-btn:active { transform:translateY(1px); }
 
 .hidden { display:none; }
-/*Ошибка ввода пароля для модального окна*/
-#modal-error {
-  font-size: 14px;
-  color: #d00;
-  margin-top: -4px;
-  margin-bottom: 6px;
-}
-.hidden {
-  display: none;
-}
-
 
 /* Модальное окно пароля - стилизуем под модальные окна сайта */
 #password-modal {
-  position:fixed; /* Используем fixed для полного экрана */
+  position:fixed;
   top:0; left:0; width:100%; height:100%;
-  background:rgba(0,0,0,0.7); /* Как оверлей на сайте */
+  background:rgba(0,0,0,0.7);
   display:flex; align-items:center; justify-content:center;
-  z-index:1001; /* Высокий z-index для модалок сайта */
+  z-index:1001;
   opacity:0;
   transition:opacity .3s ease;
   pointer-events:none;
@@ -181,26 +177,33 @@ body {
   opacity:1; pointer-events:auto;
 }
 .modal-content {
-  background:#1a1a3d; /* Фон модалки сайта */
-  padding:30px; /* Отступы модалки сайта */
-  border-radius:20px; /* Закругление модалки сайта */
-  box-shadow:0 10px 30px rgba(0,0,0,0.5); /* Тень модалки сайта */
+  background:#1a1a3d;
+  padding:30px;
+  border-radius:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.5);
   display:flex; flex-direction:column; gap:15px;
   width:90%; max-width:400px;
-  color:#d1d8e0; /* Цвет текста модалки сайта */
+  color:#d1d8e0;
 }
 .modal-content p {
   margin:0; font-size:1.1rem; color:#d1d8e0;
 }
 #modal-input {
   padding:12px; font-size:1rem;
-  border:1px solid #4a4a6d; /* Темная рамка */
+  border:1px solid #4a4a6d;
   border-radius:8px;
-  background:#0c0c1d; /* Темный фон инпута */
-  color:#d1d8e0; /* Цвет текста инпута */
+  background:#0c0c1d;
+  color:#d1d8e0;
   outline:none;
 }
 #modal-input::placeholder { color:#a5b1c2; }
+
+#modal-error {
+    color: #ff4757;
+    font-size: 0.9rem;
+    text-align: center;
+    min-height: 1.5em;
+}
 
 .modal-buttons {
   display:flex; justify-content:flex-end; gap:10px;
@@ -211,8 +214,9 @@ body {
   border:none; border-radius:30px; cursor:pointer;
   font-weight:600;
   transition:all 0.3s ease;
+  white-space: nowrap; /* ИЗМЕНЕНИЕ: Предотвращает перенос текста */
 }
-#modal-ok.cta-button { /* Кнопка ОК как cta-button */
+#modal-ok.cta-button {
   background: linear-gradient(45deg, #ff6b6b, #ff8e53);
   color: white;
   box-shadow: 0 3px 10px rgba(255, 107, 107, 0.3);
@@ -221,7 +225,7 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(255, 107, 107, 0.5);
 }
-#modal-cancel.quiz-btn { /* Кнопка Отмена как quiz-btn */
+#modal-cancel.quiz-btn {
   background:#4a4a6d;
   color:white;
 }
@@ -245,16 +249,14 @@ body {
     #cat-container { bottom: 180px; }
     #cat-image { max-width: 120px; }
     #cat-speech { max-width: 300px; font-size: 1rem; padding: 12px 16px; }
-    #cat-speech::after { left: -12px; bottom: 18px; border: 8px solid transparent; border-right-color: #fff; } /* ИЗМЕНЕНИЕ: Цвет стрелки */
+    #cat-speech::after { left: -12px; bottom: 18px; border: 8px solid transparent; border-right-color: #fff; }
     #hint-btn.quiz-btn-game { padding: 8px 15px; font-size: 0.9rem; }
     #next-btn.next-btn-game { padding: 10px 20px; font-size: 1rem; }
     .choice-btn { padding: 10px 20px; font-size: 1rem; }
     #choice-box { padding: 12px; gap: 12px; }
     .modal-content { padding: 25px; gap: 12px; }
     .modal-buttons button { padding: 8px 15px; font-size: 1rem; }
-
 }
-
 
 @media (max-width: 768px) {
     .game-wrapper {
@@ -269,10 +271,13 @@ body {
     #cat-container { bottom: 150px; left: 10px; }
     #cat-image { max-width: 100px; }
     #cat-speech { max-width: 250px; font-size: 0.9rem; padding: 10px 14px; }
-    #cat-speech::after { left: -10px; bottom: 15px; border: 7px solid transparent; border-right-color: #fff; } /* ИЗМЕНЕНИЕ: Цвет стрелки */
+    #cat-speech::after { left: -10px; bottom: 15px; border: 7px solid transparent; border-right-color: #fff; }
     #hint-btn.quiz-btn-game, #next-btn.next-btn-game { 
         padding: 8px 15px; font-size: 0.9rem; gap: 5px; 
         top: 10px; right: 10px;
+        width: fit-content; /* ИЗМЕНЕНИЕ: Принудительно fit-content */
+        box-sizing: content-box; /* ИЗМЕНЕНИЕ: Правильный box-sizing */
+        white-space: nowrap; /* ИЗМЕНЕНИЕ: Предотвращает перенос текста */
     }
     #next-btn.next-btn-game { bottom: 10px; right: 10px; }
     .choice-btn { padding: 8px 15px; font-size: 0.9rem; border-radius: 25px; }
@@ -280,7 +285,7 @@ body {
     .modal-content { padding: 20px; gap: 10px; }
     .modal-content p { font-size: 1rem; }
     #modal-input { padding: 6px; font-size: 0.9rem; }
-    .modal-buttons button { padding: 6px 10px; font-size: 0.9rem; border-radius: 20px; }
+    .modal-buttons button { padding: 6px 10px; font-size: 0.9rem; border-radius: 15px; }
 }
 
 @media (max-width: 480px) {
@@ -295,10 +300,13 @@ body {
     #cat-container { bottom: 100px; left: 5px; gap: 5px; }
     #cat-image { max-width: 80px; border-radius: 8px; }
     #cat-speech { max-width: 200px; font-size: 0.8rem; padding: 8px 10px; }
-    #cat-speech::after { left: -8px; bottom: 10px; border: 5px solid transparent; border-right-color: #fff; } /* ИЗМЕНЕНИЕ: Цвет стрелки */
+    #cat-speech::after { left: -8px; bottom: 10px; border: 5px solid transparent; border-right-color: #fff; }
     #hint-btn.quiz-btn-game, #next-btn.next-btn-game { 
         padding: 6px 10px; font-size: 0.8rem; gap: 3px; 
         top: 10px; right: 10px;
+        width: fit-content; /* ИЗМЕНЕНИЕ: Принудительно fit-content */
+        box-sizing: content-box; /* ИЗМЕНЕНИЕ: Правильный box-sizing */
+        white-space: nowrap; /* ИЗМЕНЕНИЕ: Предотвращает перенос текста */
     }
     #next-btn.next-btn-game { bottom: 10px; right: 10px; }
     .choice-btn { padding: 6px 10px; font-size: 0.8rem; border-radius: 20px; }

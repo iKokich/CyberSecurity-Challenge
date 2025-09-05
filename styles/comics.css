@@ -171,69 +171,56 @@
 
 /* Адаптивность */
 @media (max-width: 992px) {
+    .comic-section {
+        padding: 80px 30px;
+    }
     .comic-container {
         flex-direction: column;
     }
     
     .comic-panel.active {
         flex-direction: column;
+        gap: 20px;
     }
 }
 
 @media (max-width: 768px) {
     .comic-section {
-        padding: 80px 20px;
+        padding: 60px 20px;
     }
     
+    .comic-content h2 {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .comic-content p {
+        font-size: 1.1rem;
+        text-align: center;
+    }
+
+    .slider-header h2 {
+        font-size: 2rem;
+    }
+
+    .slider-header p {
+        font-size: 1.1rem;
+    }
+
+    .comic-text {
+        padding: 20px;
+    }
+
     .comic-text h3 {
         font-size: 1.5rem;
     }
     
     .comic-text p {
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
 
-    /* Стили для кнопки перехода к квизу */
-.quiz-cta {
-    padding: 80px 50px;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-    text-align: center;
-}
-
-.quiz-cta .container {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.quiz-cta h2 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    color: #6c5ce7;
-}
-
-.quiz-cta p {
-    font-size: 1.3rem;
-    margin-bottom: 40px;
-    color: #a5b1c2;
-}
-
-.cta-button {
-    display: inline-block;
-    padding: 18px 45px;
-    background: linear-gradient(45deg, #ff6b6b, #ff8e53);
-    color: white;
-    text-decoration: none;
-    border-radius: 30px;
-    font-weight: bold;
-    font-size: 1.3rem;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
-    border: none;
-    cursor: pointer;
-}
-
-.cta-button:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(255, 107, 107, 0.5);
-}
+    .slider-btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
 }
