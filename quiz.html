@@ -27,7 +27,7 @@
                         <i class="fas fa-fire"></i>
                     </div>
                     <h3>Red Team</h3>
-                    <p>Passion, love, anger, danger, warning</p>
+                    <p>Тестирование, Аттаки, Пентест, Аудит</p>
                 </div>
                 
                 <div class="team-card blue-team" data-team="blue">
@@ -35,13 +35,12 @@
                         <i class="fas fa-tint"></i>
                     </div>
                     <h3>Blue Team</h3>
-                    <p>Calm, trust, loyalty, wisdom, confidence</p>
+                    <p>Защита, Аудит, Охота за угрозами, Настройка, Проектиование</p>
                 </div>
 
-                <!-- НОВАЯ КАРТОЧКА: Мини-игра -->
                 <a href="game.html" class="team-card minigame-team">
                     <div class="team-icon">
-                        <i class="fas fa-gamepad"></i> <!-- Иконка для мини-игры -->
+                        <i class="fas fa-gamepad"></i>
                     </div>
                     <h3>Мини-игра</h3>
                     <p>Погрузитесь в интерактивную историю</p>
@@ -54,11 +53,10 @@
     <section class="quiz-section" id="quiz-section">
         <div class="container">
             <div class="quiz-header">
-                <!-- Кнопка "Подсказка" здесь, внутри quiz-header -->
                 <button id="hint-btn" class="quiz-btn hint-btn">
                     <i class="fas fa-lightbulb"></i> Подсказка
                 </button>
-                <h2>Квиз <span id="team-name"></span> команды</h2>
+                <h2>Квиз <span id="team-name"></span> team</h2>
                 <div class="quiz-progress">
                     <div class="progress-bar" id="progress-bar"></div>
                 </div>
@@ -66,18 +64,12 @@
             
             <div class="question-container">
                 <h3 class="question-text" id="question-text"></h3>
-                
-                <div class="options-container" id="options-container">
-                    <!-- Варианты ответов будут добавляться через JavaScript -->
-                </div>
+                <div class="options-container" id="options-container"></div>
             </div>
             
-            <!-- Контейнер для игр (изначально скрыт) -->
             <div class="game-container" id="game-container" style="display: none;">
                 <h3 class="game-title" id="game-title"></h3>
-                <div class="game-content" id="game-content">
-                    <!-- Содержимое игр будет добавляться через JavaScript -->
-                </div>
+                <div class="game-content" id="game-content"></div>
                 <div class="game-feedback" id="game-feedback"></div>
             </div>
             
@@ -93,26 +85,39 @@
         </div>
     </section>
 
-    <!-- Результаты квиза (изначально скрыты) -->
+    <!-- ИЗМЕНЕНИЕ: Секция результатов с новой структурой -->
     <section class="results-section" id="results-section">
         <div class="container">
             <div class="results-content">
                 <h2>Результаты квиза</h2>
-                <div class="score-container">
-                    <div class="score-circle">
-                        <span id="score-value">0</span>
-                        <span>из</span>
-                        <span id="total-questions">5</span>
+                
+                <div class="results-display-area">
+                    <!-- Левая часть - карточка с очками -->
+                    <div class="score-container">
+                        <div class="score-card">
+                            <span id="score-value">0</span>
+                            <span>из</span>
+                            <span id="total-questions">5</span>
+                        </div>
+                        <p id="score-message"></p>
                     </div>
-                    <p id="score-message"></p>
+
+                    <!-- Правая часть - GIF -->
+                    <div class="results-gif">
+                        <!-- ЗАМЕНИТЕ НА ПУТЬ К ВАШЕЙ GIF -->
+                        <img src="assets/img/star.gif" alt="Поздравляем!">
+                    </div>
                 </div>
-                <button id="restart-btn" class="cta-button">Пройти еще раз</button>
-                <a href="index.html" class="back-link">Вернуться на главную</a>
+
+                <div class="results-controls">
+                    <button id="restart-btn" class="cta-button">Пройти еще раз</button>
+                    <a href="index.html" class="back-link">Вернуться на главную</a>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Модальное окно для подсказки -->
+    <!-- Модальные окна -->
     <div id="modal-overlay" class="modal-overlay"></div>
     <div id="hint-modal" class="modal">
         <div class="modal-header">
@@ -124,7 +129,6 @@
         </div>
     </div>
 
-    <!-- НОВОЕ МОДАЛЬНОЕ ОКНО: Для просмотра файла -->
     <div id="file-viewer-modal-overlay" class="modal-overlay"></div>
     <div id="file-viewer-modal" class="modal">
         <div class="modal-header">

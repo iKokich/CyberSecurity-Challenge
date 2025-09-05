@@ -84,6 +84,7 @@
     color: #ffcc00;
 }
 
+
 .team-icon {
     font-size: 3.5rem;
     margin-bottom: 25px;
@@ -378,7 +379,10 @@
     cursor: not-allowed;
 }
 
-/* Стили для результатов */
+/* ======================================== */
+/*          СТИЛИ ДЛЯ РЕЗУЛЬТАТОВ           */
+/* ======================================== */
+
 .results-section {
     padding: 120px 50px 80px;
     background: #0c0c1d;
@@ -389,26 +393,38 @@
 }
 
 .results-section .container {
-    max-width: 600px;
+    max-width: 800px;
     margin: 0 auto;
     text-align: center;
 }
 
 .results-content h2 {
     font-size: 2.5rem;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
     color: #6c5ce7;
 }
 
-.score-container {
-    margin-bottom: 40px;
+.results-display-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
 }
 
-.score-circle {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+.score-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.score-card {
+    width: 250px;
+    height: 250px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 3px solid #6c5ce7;
+    border-radius: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -416,21 +432,41 @@
     margin: 0 auto 30px;
     color: white;
     font-size: 2rem;
-    font-weight: bold;
+    font-weight: 600;
+    box-shadow: 0 10px 30px rgba(108, 92, 231, 0.2);
 }
 
-.score-circle span:first-child {
-    font-size: 3rem;
+.score-card span:first-child {
+    font-size: 4rem;
+    font-weight: 800;
+    color: #6c5ce7;
 }
 
 #score-message {
     font-size: 1.3rem;
     color: #a5b1c2;
+    max-width: 300px;
+}
+
+.results-gif img {
+    max-width: 250px;
+    border-radius: 15px;
+}
+
+.results-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#restart-btn.cta-button {
+    padding: 15px 35px;
+    font-size: 1.1rem;
 }
 
 .back-link {
     display: inline-block;
-    margin-top: 20px;
+    margin-top: 30px;
     color: #6c5ce7;
     text-decoration: none;
     font-weight: 600;
@@ -440,7 +476,11 @@
     text-decoration: underline;
 }
 
-/* Стили для модального окна подсказки */
+
+/* ======================================== */
+/*          СТИЛИ ДЛЯ МОДАЛЬНЫХ ОКОН        */
+/* ======================================== */
+
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -449,7 +489,7 @@
     height: 100%;
     background: rgba(0, 0, 0, 0.7);
     z-index: 1001;
-    display: none;
+    display: none; /* Изначально скрыто */
 }
 
 .modal {
@@ -465,7 +505,7 @@
     width: 90%;
     max-width: 500px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    display: none;
+    display: none; /* Изначально скрыто */
     animation: fadeIn 0.3s ease-in-out;
 }
 
@@ -512,6 +552,31 @@
     color: #a5b1c2;
 }
 
+/* Стили для модального окна с файлом (phishing attachment) */
+#file-viewer-modal {
+    max-width: 600px;
+}
+#file-content-display {
+    background: #000;
+    color: #ff4757;
+    padding: 20px;
+    border-radius: 8px;
+    font-family: 'Consolas', 'Monaco', 'Lucida Console', monospace;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 1.2rem;
+    text-align: center;
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* ======================================== */
+/*         СТИЛИ ДЛЯ ИГРОВЫХ ЭЛЕМЕНТОВ      */
+/* ======================================== */
+
 /* Стили для Bash-терминала */
 .bash-terminal-game {
     text-align: left;
@@ -530,7 +595,7 @@
     overflow: hidden;
     font-family: 'Consolas', 'Monaco', 'Lucida Console', monospace;
     font-size: 0.95rem;
-    color: #0f0; /* Зеленый текст для вывода */
+    color: #0f0;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
 }
 
@@ -562,37 +627,37 @@
 
 .terminal-body {
     padding: 15px;
-    min-height: 200px; /* Минимальная высота для терминала */
-    max-height: 400px; /* Максимальная высота */
-    overflow-y: auto; /* Прокрутка, если контент больше */
+    min-height: 200px;
+    max-height: 400px;
+    overflow-y: auto;
     background: #000;
 }
 
 .terminal-output {
-    white-space: pre-wrap; /* Перенос строк */
+    white-space: pre-wrap;
     word-wrap: break-word;
     margin: 0;
     padding: 0;
-    color: #0f0; /* Цвет вывода */
+    color: #0f0;
     font-size: 0.95rem;
 }
 
 .file-editor-display {
-    background: #282a36; /* Цвет фона редактора */
-    color: #f8f8f2; /* Цвет текста редактора */
+    background: #282a36;
+    color: #f8f8f2;
     padding: 15px;
     border-radius: 5px;
     margin-top: 15px;
-    display: none; /* Скрыт по умолчанию */
+    display: none;
 }
 
 .file-editor-display .editor-info {
-    color: #6272a4; /* Более тусклый цвет для информации */
+    color: #6272a4;
     margin-bottom: 10px;
     font-size: 0.9rem;
 }
 .file-editor-display .editor-info span {
-    color: #50fa7b; /* Выделение имени файла */
+    color: #50fa7b;
     font-weight: bold;
 }
 
@@ -600,32 +665,32 @@
     white-space: pre-wrap;
     word-wrap: break-word;
     min-height: 100px;
-    border: 1px dashed #6272a4; /* Рамка для имитации редактируемой области */
+    border: 1px dashed #6272a4;
     padding: 10px;
     margin-bottom: 15px;
-    color: #f8f8f2; /* Основной цвет текста файла */
-    outline: none; /* Убираем стандартную обводку при фокусе */
-    cursor: text; /* Курсор как в текстовом поле */
+    color: #f8f8f2;
+    outline: none;
+    cursor: text;
 }
 
 .file-content-editor .comment {
-    color: #6a9955; /* Цвет комментариев */
+    color: #6a9955;
 }
 
 .file-content-editor .highlight-line {
-    background-color: rgba(255, 255, 0, 0.1); /* Подсветка для нужных строк */
-    display: block; /* Чтобы подсветка занимала всю ширину строки */
+    background-color: rgba(255, 255, 0, 0.1);
+    display: block;
     padding: 2px 0;
 }
 
 .file-editor-display .editor-guide {
-    color: #bd93f9; /* Цвет подсказки для редактирования */
+    color: #bd93f9;
     margin-bottom: 15px;
     font-size: 1rem;
 }
 
 .file-editor-display .editor-guide .highlight {
-    color: #ff79c6; /* Выделение ключевых слов в подсказке */
+    color: #ff79c6;
     font-weight: bold;
 }
 
@@ -633,7 +698,7 @@
 #save-bash-changes-btn {
     margin-top: 10px;
     width: auto;
-    display: block; /* Кнопка занимает всю ширину по умолчанию */
+    display: block;
     margin-left: auto;
     margin-right: auto;
 }
@@ -645,7 +710,7 @@
 }
 
 .prompt {
-    color: #50fa7b; /* Зеленый цвет для промпта */
+    color: #50fa7b;
     margin-right: 5px;
 }
 
@@ -653,7 +718,7 @@
     flex-grow: 1;
     background: transparent;
     border: none;
-    color: #f8f8f2; /* Цвет ввода пользователя */
+    color: #f8f8f2;
     outline: none;
     padding: 0;
     font-family: 'Consolas', 'Monaco', 'Lucida Console', monospace;
@@ -757,21 +822,21 @@
     gap: 25px;
 }
 
-.caesar-cipher-game .bash-task { /* Используем тот же класс для заголовка задачи */
+.caesar-cipher-game .bash-task {
     text-align: center;
 }
 
 .caesar-alphabet-table-container {
     display: flex;
     gap: 30px;
-    align-items: flex-start; /* Выравнивание по верхнему краю */
+    align-items: flex-start;
     width: 100%;
     max-width: 700px;
 }
 
 .caesar-alphabet-table {
     display: grid;
-    grid-template-columns: repeat(13, 1fr); /* 13 колонок для английского алфавита */
+    grid-template-columns: repeat(13, 1fr);
     gap: 5px;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 8px;
@@ -780,31 +845,31 @@
 }
 
 .alphabet-letter-cell {
-    width: 40px; /* Увеличена ширина для нумерации */
-    height: 40px; /* Увеличена высота */
+    width: 40px;
+    height: 40px;
     display: flex;
-    flex-direction: column; /* Для размещения буквы и номера */
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 1.1rem; /* Размер буквы */
+    font-size: 1.1rem;
     font-weight: 500;
     color: #d1d8e0;
-    background: rgba(108, 92, 231, 0.1); /* Легкий фон */
+    background: rgba(108, 92, 231, 0.1);
     border-radius: 4px;
-    position: relative; /* Для позиционирования номера */
+    position: relative;
 }
 
 .alphabet-letter-cell .letter {
     font-weight: bold;
-    font-size: 1.2em; /* Чуть крупнее буква */
+    font-size: 1.2em;
 }
 
 .alphabet-letter-cell .number {
     position: absolute;
     top: 2px;
     right: 2px;
-    font-size: 0.7em; /* Маленький размер для номера */
-    color: #ffcc00; /* Цвет номера */
+    font-size: 0.7em;
+    color: #ffcc00;
     font-weight: bold;
 }
 
@@ -820,44 +885,42 @@
 .cipher-letter-block-container {
     display: flex;
     justify-content: center;
-    gap: 10px; /* Отступ между блоками */
+    gap: 10px;
     flex-wrap: wrap;
     margin-bottom: 20px;
 }
 
 .cipher-letter-block {
-    width: 60px; /* Ширина блока */
-    height: 60px; /* Высота блока (чтобы был квадратным) */
-    background: #2b2b3b; /* Темный фон, как у кнопок */
-    border: 2px solid #6c5ce7; /* Рамка как у кнопок */
-    border-radius: 8px; /* Немного закругленные углы */
+    width: 60px;
+    height: 60px;
+    background: #2b2b3b;
+    border: 2px solid #6c5ce7;
+    border-radius: 8px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2rem; /* Большой шрифт для буквы */
+    font-size: 2rem;
     font-weight: 800;
     color: #fff;
     cursor: text;
-    outline: none; /* Убираем стандартную обводку */
+    outline: none;
     transition: all 0.2s ease;
-    text-transform: uppercase; /* Всегда заглавные буквы */
+    text-transform: uppercase;
 }
 
 .cipher-letter-block:focus {
-    border-color: #ffcc00; /* Подсветка при фокусе */
+    border-color: #ffcc00;
     box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.3);
 }
 
-/* Контейнер для кнопок "Проверить" и "Пропустить" */
 .caesar-controls {
     display: flex;
-    gap: 15px; /* Отступ между кнопками */
+    gap: 15px;
     justify-content: center;
-    flex-wrap: wrap; /* Для адаптивности */
+    flex-wrap: wrap;
 }
 
 .check-caesar-btn {
-    /* Наследует quiz-btn стили */
     padding: 15px 30px;
     background: #6c5ce7;
     color: white;
@@ -880,12 +943,11 @@
     cursor: not-allowed;
 }
 
-/* Стили для кнопки "Пропустить" */
 .skip-caesar-btn {
     padding: 15px 30px;
-    background: rgba(255, 178, 102, 0.2); /* Светло-оранжевый фон */
-    border: 2px solid #ff9933; /* Оранжевая рамка */
-    color: #ff9933; /* Оранжевый текст */
+    background: rgba(255, 178, 102, 0.2);
+    border: 2px solid #ff9933;
+    color: #ff9933;
     border-radius: 30px;
     cursor: pointer;
     font-size: 1.1rem;
@@ -927,7 +989,7 @@
 .email-preview {
     width: 100%;
     max-width: 600px;
-    background: #1e1e1e; /* Темный фон, как у терминала */
+    background: #1e1e1e;
     border-radius: 12px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
     border: 1px solid #444;
@@ -937,7 +999,7 @@
 }
 
 .email-header {
-    background: #282a36; /* Фон заголовка, как в редакторе bash */
+    background: #282a36;
     padding: 15px 20px;
     border-bottom: 1px solid #444;
     display: flex;
@@ -952,20 +1014,20 @@
 }
 
 .email-sender span:first-child, .email-subject span:first-child, .email-date span:first-child {
-    color: #6272a4; /* Цвет подписей (От:, Тема:, Дата:) */
+    color: #6272a4;
     margin-right: 10px;
     font-weight: 500;
 }
 
 .email-sender span:last-child, .email-subject span:last-child, .email-date span:last-child {
-    color: #f8f8f2; /* Цвет самого значения */
+    color: #f8f8f2;
     font-weight: bold;
 }
 
 .email-body-content {
     padding: 20px;
     flex-grow: 1;
-    color: #bd93f9; /* Цвет текста письма, как в подсказках bash */
+    color: #bd93f9;
     font-size: 1rem;
     line-height: 1.7;
 }
@@ -976,11 +1038,11 @@
     padding: 8px 12px;
     cursor: pointer;
     transition: background 0.3s;
-    display: inline-flex; /* Для выравнивания иконки и текста */
+    display: inline-flex;
     align-items: center;
     gap: 8px;
     border: 1px solid #6c5ce7;
-    color: #8be9fd; /* Цвет как у ссылок */
+    color: #8be9fd;
 }
 
 .email-attachment:hover {
@@ -1038,8 +1100,8 @@
     font-size: 1.1rem;
     line-height: 1.7;
     color: #d1d8e0;
-    text-align: left; /* Выравнивание текста по левому краю */
-    display: none; /* Скрыто по умолчанию */
+    text-align: left;
+    display: none;
 }
 
 .phishing-explanation h4 {
@@ -1048,13 +1110,42 @@
     font-size: 1.3rem;
 }
 
-/* Стили для модального окна с файлом */
-#file-viewer-modal {
-    max-width: 600px;
+/* Стили для модального окна с файлом (phishing attachment) */
+#file-viewer-modal-overlay { /* Изначально скрыт, появляется при клике на файл */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1003; /* Выше обычного modal-overlay */
+    display: none;
 }
+
+#file-viewer-modal { /* Само модальное окно */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #1a1a3d;
+    color: #fff;
+    padding: 30px;
+    border-radius: 20px;
+    z-index: 1004; /* Выше обычного modal */
+    width: 90%;
+    max-width: 600px; /* Размер окна для файла */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+#file-viewer-modal .modal-header h3 {
+    color: #ff4757; /* Красный заголовок для опасности */
+}
+
 #file-content-display {
-    background: #000; /* Черный фон, как у терминала */
-    color: #ff4757; /* Красный цвет, имитирующий вирус */
+    background: #000;
+    color: #ff4757; /* Красный цвет для имитации вируса */
     padding: 20px;
     border-radius: 8px;
     font-family: 'Consolas', 'Monaco', 'Lucida Console', monospace;
@@ -1062,10 +1153,153 @@
     word-wrap: break-word;
     font-size: 1.2rem;
     text-align: center;
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Адаптивность для Phishing Email */
+
+/* ======================================== */
+/*                АДАПТИВНОСТЬ              */
+/* ======================================== */
+
 @media (max-width: 768px) {
+    .navbar {
+        padding: 15px 20px;
+    }
+
+    .hint-btn {
+        position: static;
+        margin-bottom: 20px;
+        align-self: center;
+    }
+    
+    .quiz-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .team-selection,
+    .quiz-section,
+    .results-section {
+        padding: 100px 20px 60px;
+    }
+    
+    .team-selection h2,
+    .quiz-header h2,
+    .results-content h2 {
+        font-size: 2rem;
+    }
+    
+    .teams-container {
+        gap: 30px;
+    }
+    
+    .team-card {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .question-container,
+    .game-container {
+        padding: 25px;
+    }
+    
+    .question-text,
+    .game-title,
+    .drag-to-input-game .drag-question-text {
+        font-size: 1.3rem;
+    }
+    
+    .drag-to-input-game .drag-to-input-image {
+        max-width: 100%;
+        max-height: 200px;
+    }
+
+    .drop-zones {
+        flex-direction: column;
+    }
+    
+    .match-pairs {
+        grid-template-columns: 1fr;
+    }
+    
+    .quiz-controls {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .score-card { /* Адаптация карточки результатов */
+        width: 200px;
+        height: 200px;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+    
+    .score-card span:first-child {
+        font-size: 3.5rem;
+    }
+
+    .results-gif img {
+        max-width: 200px;
+    }
+
+    .results-display-area {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .terminal-body {
+        min-height: 150px;
+        max-height: 300px;
+        padding: 10px;
+    }
+    .terminal-output, .terminal-input, .file-editor-display .editor-info {
+        font-size: 0.85rem;
+    }
+    .prompt {
+        font-size: 0.85rem;
+    }
+    .drop-target-input {
+        font-size: 1rem;
+        min-height: 50px;
+    }
+    .drag-option-item {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+
+    /* Адаптивность для Caesar Cipher */
+    .caesar-alphabet-table-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .caesar-alphabet-table {
+        grid-template-columns: repeat(auto-fill, minmax(30px, 1fr)); 
+        gap: 3px;
+        padding: 8px;
+    }
+    .alphabet-letter-cell {
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
+    }
+    .cipher-letter-block {
+        width: 50px;
+        height: 50px;
+        font-size: 1.8rem;
+    }
+    .cipher-letter-block-container {
+        gap: 8px;
+    }
+    .caesar-controls {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    /* Адаптивность для Phishing Email */
     .phishing-email-game {
         gap: 20px;
     }
@@ -1088,4 +1322,35 @@
     .phishing-options button { font-size: 1rem; padding: 10px 20px; width: 90%; }
     .phishing-explanation { margin-top: 15px; font-size: 1rem; }
     .phishing-explanation h4 { font-size: 1.2rem; }
+
+    /* Адаптация модального окна с файлом */
+    #file-viewer-modal {
+        max-width: 90%;
+        padding: 20px;
+    }
+    #file-content-display {
+        font-size: 1rem;
+        min-height: 100px;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* ... (медиа-запросы для маленьких экранов) ... */
+    .caesar-alphabet-table {
+        grid-template-columns: repeat(auto-fill, minmax(25px, 1fr));
+    }
+    .alphabet-letter-cell {
+        width: 25px;
+        height: 25px;
+        font-size: 0.8rem;
+    }
+    .alphabet-letter-cell .number {
+        font-size: 0.6em;
+    }
+    .cipher-letter-block {
+        width: 45px;
+        height: 45px;
+        font-size: 1.5rem;
+    }
 }

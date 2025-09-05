@@ -160,7 +160,6 @@ a {
 }
 
 /* Цвета и позиционирование блоков */
-/* ИЗМЕНЕНИЕ: Корректировка имен классов для соответствия HTML */
 .direction-linux { background-color: #C5B8FA; }
 .direction-malware { background-color: #A6E6B2; margin-left: 35%; }
 .direction-attacks { background-color: #A9D5EF; max-width: 250px; }
@@ -190,10 +189,11 @@ a {
 }
 
 /* Позиционирование каждого изображения для "случайного" эффекта, чтобы избежать перекрытия */
+/* ИЗМЕНЕНИЕ: Отодвигаем картинку от блока LINUX */
 .hero-small-image-item.image-1 {
-    top: 15%;
-    left: 0;
-    transform: rotate(-10deg);
+    top: 5%;
+    left: -10%; /* Смещаем влево за пределы контейнера */
+    transform: rotate(-15deg);
 }
 
 .hero-small-image-item.image-2 {
@@ -246,6 +246,55 @@ a {
     box-shadow: 0 10px 25px rgba(255, 107, 107, 0.5); 
 }
 
+/* ======================================== */
+/*             СТИЛИ ДЛЯ FOOTER             */
+/* ======================================== */
+
+.footer {
+    padding: 40px 50px;
+    background: #0c0c1d; /* Более темный фон, как у секции комикса */
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Для адаптивности */
+    gap: 20px;
+}
+
+.footer-authors {
+    color: #a5b1c2;
+    font-size: 0.9rem;
+}
+
+.footer-social {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.footer-social h3 {
+    color: #d1d8e0;
+    font-weight: 600;
+    font-size: 1rem;
+    margin: 0;
+}
+
+.footer-social a {
+    color: #6c5ce7;
+    font-size: 2.2rem; /* Увеличили размер иконки */
+    transition: all 0.3s ease;
+}
+
+.footer-social a:hover {
+    color: #fff;
+    transform: scale(1.1) rotate(15deg); /* Добавляем вращение при наведении */
+}
+
 
 /* ======================================== */
 /*                АДАПТИВНОСТЬ              */
@@ -277,8 +326,12 @@ a {
     .quiz-cta-section h2 { font-size: 2rem; }
     .quiz-cta-section p { font-size: 1.1rem; }
     .cta-button { padding: 15px 30px; font-size: 1.1rem; }
+    .footer-container {
+        flex-direction: column; /* Элементы друг под другом */
+        justify-content: center; /* Центрируем */
+        gap: 25px; /* Увеличиваем отступ */
+    }
+    .footer-authors {
+        text-align: center;
+    }
 }
-
-/* Секция комикса (стили из comics.css, без изменений) */
-/* ... */
-
