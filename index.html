@@ -14,6 +14,10 @@ rel="stylesheet">
     <!-- Навигационное меню -->
     <nav class="navbar">
         <a href="#" class="logo">Younger<span>&</span>Cyber</a>
+        <!-- НОВАЯ КНОПКА: Поделиться -->
+        <button id="share-btn" class="share-btn">
+            <i class="fas fa-share-alt"></i> Поделиться
+        </button>
     </nav>
 
     <!-- HERO-СЕКЦИЯ -->
@@ -26,7 +30,7 @@ rel="stylesheet">
                         Участвуй в событиях<br><span>CyberChallenge</span>
                     </h1>
                     
-                    <!-- ИЗМЕНЕНИЕ: Обертываем описание в новый div для стилизации -->
+                    <!-- Карточка с описанием -->
                     <div class="hero-description-card">
                         <p>
                             Решай задачи по кибербезопасности в формате квиза . 
@@ -49,7 +53,7 @@ rel="stylesheet">
 
                     <!-- 4 маленьких изображения для декора -->
                     <div class="hero-small-image-item image-1">
-                        <img src="assets/img/game.png" alt="Small Cyber Icon 1"> <!-- Убедитесь, что пути правильные -->
+                        <img src="assets/img/flag.png" alt="Small Cyber Icon 1">
                     </div>
                     <div class="hero-small-image-item image-2">
                         <img src="assets/img/folder.png" alt="Small Cyber Icon 2">
@@ -115,10 +119,10 @@ rel="stylesheet">
                 
                 <div class="slider-controls">
                     <button class="slider-btn" id="prev-btn" disabled>
-                        <i class="fas fa-arrow-left"></i> Назад
+                        <i class="fas fa-arrow-left"></i> Previous
                     </button>
                     <button class="slider-btn" id="next-btn">
-                        Далее <i class="fas fa-arrow-right"></i>
+                        Next <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
                 
@@ -140,7 +144,7 @@ rel="stylesheet">
         </div>
     </section>
 
-    <!-- НОВЫЙ БЛОК: Footer -->
+    <!-- Футер -->
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-authors">
@@ -148,12 +152,28 @@ rel="stylesheet">
             </div>
             <div class="footer-social">
                 <h3>Будем на связи:</h3>
-                <a href="https://t.me/Ikokich" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+                <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
                     <i class="fab fa-telegram-plane"></i>
                 </a>
             </div>
         </div>
     </footer>
+
+    <!-- НОВОЕ МОДАЛЬНОЕ ОКНО: Поделиться (QR-код) -->
+    <div id="share-modal-overlay" class="modal-overlay"></div>
+    <div id="share-modal" class="modal">
+        <div class="modal-header">
+            <h3>Поделиться CyberChallenge</h3>
+            <span class="close-btn">&times;</span>
+        </div>
+        <div class="modal-content">
+            <p>Отсканируйте QR-код, чтобы поделиться сайтом:</p>
+            <img id="qr-code-image" src="assets/img/qr-code.png" alt="QR Code" style="max-width: 200px; height: auto; margin-top: 15px; border-radius: 8px;">
+            <p style="margin-top: 15px; font-size: 0.9rem; color: #a5b1c2;">
+                Или скопируйте ссылку: <span id="share-link" style="color: #6c5ce7; cursor: pointer;">https://ikokich.github.io/CyberSecurity-Challenge/</span>
+            </p>
+        </div>
+    </div>
 
     <script src="scripts/app.js"></script>
 </body>

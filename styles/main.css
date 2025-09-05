@@ -2,7 +2,6 @@
 /*            ОБЩИЕ СТИЛИ САЙТА             */
 /* ======================================== */
 
-/* Сброс стилей и базовые настройки */
 * {
     margin: 0;
     padding: 0;
@@ -32,6 +31,9 @@ a {
     left: 0;
     z-index: 1000;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex; /* Для размещения кнопки "Поделиться" */
+    justify-content: space-between; /* Для размещения кнопки "Поделиться" */
+    align-items: center;
 }
 
 .logo {
@@ -42,6 +44,31 @@ a {
 
 .logo span {
     color: #ff6b6b;
+}
+
+/* НОВЫЙ СТИЛЬ: Кнопка "Поделиться" */
+.share-btn {
+    background: transparent; /* Прозрачный фон */
+    border: 2px solid #6c5ce7; /* Рамка */
+    color: #6c5ce7; /* Цвет текста и иконки */
+    padding: 8px 15px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content; /* Ширина по контенту */
+    box-sizing: content-box; /* Правильный расчет ширины */
+}
+
+.share-btn:hover {
+    background: rgba(108, 92, 231, 0.2);
+    transform: translateY(-2px);
+    color: #fff;
+    border-color: #fff;
 }
 
 
@@ -56,7 +83,7 @@ a {
     padding: 120px 50px 50px;
     position: relative;
     background: url('../assets/your-background-image.jpg') center/cover no-repeat;
-    background-color: #1a1a2e; /* Цвет фона на случай, если картинка не загрузится */
+    background-color: #1a1a2e;
 }
 
 .hero::before {
@@ -96,8 +123,8 @@ a {
     flex-direction: column;
     gap: 12px;
     position: relative;
-    height: 400px;
-    justify-content: center;
+    height: 400px; /* Фиксированная высота для правильного позиционирования изображений */
+    justify-content: center; /* Центрируем direction-item по вертикали */
     align-items: flex-start;
 }
 
@@ -120,24 +147,21 @@ a {
     padding: 25px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(5px);
-    margin-top: 30px; /* Отступ от заголовка */
+    margin-top: 40px; /* ИЗМЕНЕНИЕ: Отступ от заголовка, чтобы освободить место */
 }
 
-.hero-description {
+.hero-description-card p {
     font-size: 1rem;
     line-height: 1.7;
     color: #d1d8e0;
-    margin-bottom: 15px;
-    max-width: 550px;
-    margin-left: 0;
-    margin-right: 0;
-    text-align: left;
+    margin-bottom: 15px; /* Отступ между параграфами внутри карточки */
 }
 
 /* Убираем последний отступ у параграфа в карточке */
 .hero-description-card p:last-child {
     margin-bottom: 0;
 }
+
 
 .direction-item {
     color: #000;
@@ -199,6 +223,7 @@ a {
     object-fit: contain;
 }
 
+/* Позиционирование каждого изображения для "случайного" эффекта, чтобы избежать перекрытия */
 .hero-small-image-item.image-1 {
     top: 5%;
     left: -10%;
@@ -306,20 +331,114 @@ a {
 
 
 /* ======================================== */
+/*          СТИЛИ ДЛЯ МОДАЛЬНЫХ ОКОН        */
+/* ======================================== */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1001;
+    display: none;
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #1a1a3d;
+    color: #fff;
+    padding: 30px;
+    border-radius: 20px;
+    z-index: 1002;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -45%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 15px;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #6c5ce7;
+}
+
+.close-btn {
+    font-size: 2rem;
+    cursor: pointer;
+    color: #a5b1c2;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+    color: #fff;
+}
+
+.modal-content p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #a5b1c2;
+}
+
+/* Стили для модального окна с QR-кодом */
+#share-modal .modal-content {
+    text-align: center;
+}
+
+#qr-code-image {
+    max-width: 200px;
+    height: auto;
+    margin-top: 15px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: #fff; /* Белый фон для QR-кода */
+}
+
+#share-link {
+    display: inline-block;
+    padding: 5px 10px;
+    background: rgba(108, 92, 231, 0.1);
+    border: 1px solid #6c5ce7;
+    border-radius: 5px;
+    font-family: 'Consolas', monospace;
+    font-size: 0.9em;
+    user-select: all; /* Позволяет легко выделить текст */
+}
+
+
+/* ======================================== */
 /*                АДАПТИВНОСТЬ              */
 /* ======================================== */
 
-@media (max-width: 768px) {
-    .navbar {
-        padding: 15px 20px;
-        justify-content: center;
-    }
-
+@media (max-width: 992px) {
     .hero {
-        padding: 100px 20px 50px;
-        min-height: auto;
+        padding: 100px 30px 40px;
     }
-    
     .hero-layout {
         flex-direction: column;
         text-align: center;
@@ -329,31 +448,34 @@ a {
         text-align: center;
     }
 
+    .hero-description-card {
+        margin: 30px auto 0; /* Центрируем карточку */
+        max-width: 500px; /* Ограничиваем ширину */
+    }
+
     .hero-right {
         margin-top: 50px;
-        height: auto;
-        align-items: center;
+        height: auto; /* Сбрасываем фиксированную высоту */
+        align-items: center; /* Центрируем блоки */
     }
 
     .hero-main-title {
-        font-size: 1.8rem;
+        font-size: 2rem;
     }
     
-    .hero-description {
+    .hero-description-card p {
         font-size: 0.9rem;
-    }
-
-    .hero-description-card {
-        padding: 20px;
-        margin-top: 20px;
     }
 
     .direction-item {
         font-size: 1.2rem;
         padding: 8px 15px;
-        margin-left: 0 !important;
+        margin-left: 0 !important; /* Убираем все кастомные margin-left */
+        max-width: none;
+        width: 100%; /* Занимают всю доступную ширину */
     }
     
+    /* Скрываем декоративные изображения на планшетах и ниже */
     .hero-small-image-item {
         display: none;
     }
@@ -383,4 +505,97 @@ a {
     .footer-authors {
         text-align: center;
     }
+    .share-btn { /* Адаптация кнопки "Поделиться" */
+        padding: 6px 12px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 768px) { /* ИЗМЕНЕНИЕ: Теперь это для телефонов, включая iPhone 13 */
+    .hero-main-title {
+        font-size: 1.5rem;
+        line-height: 1.3;
+    }
+    .hero-description-card p {
+        font-size: 0.85rem;
+        line-height: 1.5;
+    }
+
+    /* ИЗМЕНЕНИЕ: Hero-layout теперь как колонки, чтобы блоки не были слишком узкими */
+    .hero-layout {
+        flex-direction: column;
+        gap: 40px; /* Увеличиваем отступ между левой и правой колонками */
+    }
+    .hero-left, .hero-right {
+        flex-basis: auto; /* Автоматическая ширина */
+        width: 100%; /* Занимают всю ширину */
+        align-items: center; /* Центрируем содержимое */
+    }
+    .hero-right {
+        height: auto; /* Сбрасываем высоту */
+        gap: 15px; /* Отступ между direction-item */
+    }
+
+    /* direction-item теперь должны быть центрированы и не иметь жестких margin-left */
+    .direction-item {
+        font-size: 1.1rem; /* Уменьшаем шрифт еще больше */
+        padding: 6px 12px;
+        margin-left: 0 !important; /* Убираем все кастомные margin-left */
+        width: 90%; /* Занимают большую часть ширины, но с отступами */
+        max-width: 250px; /* Ограничиваем максимальную ширину */
+    }
+
+    /* ИЗМЕНЕНИЕ: Делаем маленькие картинки видимыми и позиционируем их относительно hero-right */
+    .hero-small-image-item {
+        display: flex; /* Делаем видимыми */
+        width: 40px; /* Размер картинок */
+        height: 40px;
+        opacity: 0.7; /* Немного прозрачности */
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2); /* Легкая тень */
+        background-color: rgba(255, 255, 255, 0.05); /* Немного фона */
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px; /* Немного скругляем */
+    }
+
+    /* Корректируем позиционирование для телефонов */
+    .hero-small-image-item.image-1 { top: -20px; left: 10%; transform: rotate(-10deg); }
+    .hero-small-image-item.image-2 { top: 10%; right: 5%; transform: rotate(15deg); }
+    .hero-small-image-item.image-3 { bottom: -20px; left: 25%; transform: rotate(-8deg); }
+    .hero-small-image-item.image-4 { bottom: 0; right: 15%; transform: rotate(5deg); }
+
+
+    .quiz-cta-section h2 {
+        font-size: 1.8rem;
+    }
+    .quiz-cta-section p {
+        font-size: 1rem;
+    }
+    .cta-button {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) { /* Дополнительная адаптация для очень маленьких телефонов */
+    .hero-main-title {
+        font-size: 1.2rem;
+    }
+    .hero-description-card p {
+        font-size: 0.8rem;
+    }
+    .direction-item {
+        font-size: 0.9rem;
+        padding: 5px 10px;
+        width: 100%;
+        max-width: 200px; /* Еще уже */
+    }
+
+    .hero-small-image-item {
+        width: 30px;
+        height: 30px;
+    }
+    .hero-small-image-item.image-1 { top: -15px; left: 5%; transform: rotate(-12deg); }
+    .hero-small-image-item.image-2 { top: 5%; right: 2%; transform: rotate(10deg); }
+    .hero-small-image-item.image-3 { bottom: -15px; left: 20%; transform: rotate(-5deg); }
+    .hero-small-image-item.image-4 { bottom: 5%; right: 8%; transform: rotate(7deg); }
 }
