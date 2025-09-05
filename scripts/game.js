@@ -206,13 +206,13 @@ window.addEventListener('load', () => {
       // кабель
       if (pcCableConnected && cableToRouterConnected) {
         setSceneBackground("assets/img/monitor_complete.png");
-        endGame(true,"Ура! Спасибо что подключл мне интерент!!! Я кстати слышал, что по проводу связь стабильнее и безопаснее.");
+        endGame(true,"Ура! Спасибо что подключил мне интернет!!! Я кстати слышал, что проводная связь стабильнее и безопаснее.");
         return;
       }
       // Wi-Fi успех
       if (wifiConnectedCorrect) {
         setSceneBackground("assets/img/monitor_complete.png");
-        endGame(true,"Отлично! Мне показалось что там была сеть злоумышленника с похожим названием. Не представляю что могло бы быть если бы мы подключились к ней.");
+        endGame(true,"Отлично! Я заметил там сеть злоумышленника с похожим названием. Не представляю что могло бы быть если бы мы подключились к ней.");
         return;
       }
       // Wi-Fi провал
@@ -238,24 +238,31 @@ window.addEventListener('load', () => {
       setChoices([{ text: "Назад", action: showMainScene }]);
     }
   
-    function showPasswordPrompt(ssid) {
-      modalText.textContent = `Введите пароль для сети ${ssid}:`;
-      modalInput.value = "";
-      passwordModal.classList.add('show');
-      modalInput.focus();
-    }
-    modalOk.onclick = () => {
-      const pass = modalInput.value;
-      passwordModal.classList.remove('show');
-      if (pass===wifiPassword) {
-        wifiConnectedCorrect = true;
-        wifiConnectedWrong = false;
-        catSpeech.textContent = "Пароль верный!";
-      } else {
-        catSpeech.textContent = "Неверный пароль.";
-      }
-      setTimeout(openMonitor,300);
-    };
+function showPasswordPrompt(ssid) {
+  modalText.textContent = `Введите пароль для сети ${ssid}:`;
+  modalInput.value = "";
+  document.getElementById('modal-error').classList.add('hidden');
+  document.getElementById('modal-error').textContent = "";
+  passwordModal.classList.add('show');
+  modalInput.focus();
+}
+
+modalOk.onclick = () => {
+  const pass = modalInput.value;
+  const errorBox = document.getElementById('modal-error');
+
+  if (pass === wifiPassword) {
+    wifiConnectedCorrect = true;
+    wifiConnectedWrong = false;
+    passwordModal.classList.remove('show');
+    setTimeout(openMonitor, 300);
+  } else {
+    errorBox.textContent = "Неверный пароль. Попробуйте ещё раз.";
+    errorBox.classList.remove('hidden');
+    modalInput.focus();
+  }
+};
+
     modalCancel.onclick = () => {
       passwordModal.classList.remove('show');
       openMonitor();
@@ -287,6 +294,8 @@ window.addEventListener('load', () => {
       },600);
     }
   
+
+    
     // подсказка
     hintBtn.addEventListener('click',()=>{
       if(!cablePicked&&!wifiPicked) {
